@@ -237,7 +237,7 @@ export default function Users() {
                         country,
                         date_of_birth,
                         is_mining,
-                        referral_id,
+                        referred_by,
                         city,
                         status,
                       } = row;
@@ -276,7 +276,9 @@ export default function Users() {
                               sx={{ height: "20px" }}
                             />
                           </TableCell>
-                          <TableCell align="left">{referral_id}</TableCell>
+                          <TableCell align="left">
+                            {referred_by?.username}
+                          </TableCell>
                           <TableCell align="left">
                             <FormControl fullWidth size="small">
                               <InputLabel id="demo-simple-select-label">
