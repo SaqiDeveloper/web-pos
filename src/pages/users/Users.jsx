@@ -1,7 +1,4 @@
-import { filter } from "lodash";
-import { sentenceCase } from "change-case";
 import { useEffect, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
 // material
 import {
   Card,
@@ -20,6 +17,10 @@ import {
   CircularProgress,
   Box,
   Chip,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 // components
 import {
@@ -31,12 +32,16 @@ import {
 } from "src/components";
 //
 import { useNavigate } from "react-router-dom";
-import { AllUsers } from "src/DAL/Users/User";
+import { AllUsers, UpdateUserStatus } from "src/DAL/Users/User";
 import moment from "moment/moment";
 import { ClassNames } from "@emotion/react";
 import UserListToolbar from "src/components/UserListToolbar";
 import UserListHead from "src/components/UserListHead";
 import UserMoreMenu from "src/components/UserMoreMenu";
+import { useSnackbar } from "notistack";
+import ImageModel from "src/components/ShowImageModel";
+import ChangePasswordModel from "src/components/ChangePasswordModel";
+import AddBalanceModel from "src/components/AddBalanceModel";
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -52,8 +57,10 @@ const TABLE_HEAD = [
   { id: "balance", label: "Balance", alignRight: false },
   { id: "bonus", label: "Bonus", alignRight: false },
   { id: "referral_id", label: "Referral ID", alignRight: false },
+  { id: "status", label: "Status", alignRight: false },
   { id: "date_of_birth", label: "Date of Birth", alignRight: false },
   { id: "country", label: "Country", alignRight: false },
+  { id: "city", label: "City", alignRight: false },
   { id: "address", label: "Address", alignRight: false },
   { id: "phone", label: "Phone", alignRight: false },
   { id: "created_at", label: "Created At" },
@@ -61,51 +68,58 @@ const TABLE_HEAD = [
 
 export default function Users() {
   const navigate = useNavigate();
-  const [page, setPage] = useState(0);
-
-  const [order, setOrder] = useState("asc");
-
-  const [selected, setSelected] = useState([]);
-
-  const [orderBy, setOrderBy] = useState("name");
-
+  const { enqueueSnackbar } = useSnackbar();
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [filterName, setFilterName] = useState("");
-
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [USERLIST, setUSERLIST] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
+  const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [image, setImage] = useState("");
+  const [openModel, setOpenModel] = useState(false);
+  const [openBalanceModel, setOpenBalanceModel] = useState(false);
+  const [userId, setUserId] = useState("");
 
   const getAllUsers = async () => {
-    setLoading(true);
     const resp = await AllUsers(page, rowsPerPage, filterName);
     if (resp.status == true) {
       setUSERLIST(resp?.data?.data);
+      setTotal(resp?.data?.total);
+      setCurrentPage(resp?.data?.current_page);
       setLoading(false);
+    } else {
+      setLoading(false);
+      enqueueSnackbar(resp?.message, { variant: "error" });
+    }
+  };
+
+  const handleStatusChange = async (e, id) => {
+    const data = {
+      status: e.target.value,
+      _method: "put",
+    };
+    const resp = await UpdateUserStatus(id, data);
+    if (resp?.status == true) {
+      enqueueSnackbar(resp?.message, { variant: "success" });
+      getAllUsers();
+    } else {
+      enqueueSnackbar(resp?.message, { variant: "error" });
     }
   };
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage + 1);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+  };
+
+  const handleShowImage = (val) => {
+    setImage(val);
+    setOpen(true);
   };
 
   const handleFilterByName = (event) => {
@@ -116,8 +130,45 @@ export default function Users() {
     getAllUsers();
   };
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST?.length) : 0;
+  const handleViewReferral = (data) => {
+    navigate(`/user-detail/${data?.id}`);
+  };
+
+  const handleChangePassword = (val) => {
+    setUserId(val?.id);
+    setOpenModel(true);
+  };
+  const handleAddBalance = (val) => {
+    setUserId(val?.id);
+    setOpenBalanceModel(true);
+  };
+
+  const handleUpdateProfile = (val) => {
+    navigate(`/update-profile/${val?.id}`, { state: val });
+  };
+
+  const MENU_OPTIONS = [
+    {
+      icon: "ix:contact-details-filled",
+      title: "More Detail",
+      handleClick: handleViewReferral,
+    },
+    {
+      icon: "mdi:password-check",
+      title: "Change Password",
+      handleClick: handleChangePassword,
+    },
+    {
+      icon: "iconamoon:profile-circle-fill",
+      title: "Update Profile",
+      handleClick: handleUpdateProfile,
+    },
+    {
+      icon: "mdi:cash-sync",
+      title: "Add Balance",
+      handleClick: handleAddBalance,
+    },
+  ];
 
   const isUserNotFound = USERLIST?.length === 0;
 
@@ -126,6 +177,17 @@ export default function Users() {
   }, [page, rowsPerPage]);
   return (
     <Page title="User">
+      <AddBalanceModel
+        open={openBalanceModel}
+        setOpen={setOpenBalanceModel}
+        userId={userId}
+      />
+      <ChangePasswordModel
+        open={openModel}
+        setOpen={setOpenModel}
+        userId={userId}
+      />
+      <ImageModel open={open} setOpen={setOpen} data={image} />
       <Container maxWidth="xl">
         <Stack
           direction="row"
@@ -161,10 +223,7 @@ export default function Users() {
                 <Table>
                   <UserListHead headLabel={TABLE_HEAD} />
                   <TableBody>
-                    {USERLIST?.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )?.map((row) => {
+                    {USERLIST?.map((row) => {
                       const {
                         id,
                         username,
@@ -179,6 +238,8 @@ export default function Users() {
                         date_of_birth,
                         is_mining,
                         referral_id,
+                        city,
+                        status,
                       } = row;
 
                       return (
@@ -190,7 +251,12 @@ export default function Users() {
                             <Avatar
                               src={profile_image}
                               alt={username}
-                              sx={{ height: "3rem", width: "3rem" }}
+                              sx={{
+                                height: "3rem",
+                                width: "3rem",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => handleShowImage(profile_image)}
                             />
                           </TableCell>
                           <TableCell align="left">{email}</TableCell>
@@ -198,42 +264,55 @@ export default function Users() {
                             <Chip
                               label={is_mining == 0 ? "In Active" : "Active"}
                               color={is_mining == 0 ? "error" : "success"}
-                              sx={{ height: "23px" }}
+                              sx={{ height: "20px" }}
                             />
                           </TableCell>
                           <TableCell align="left">{balance}</TableCell>
                           <TableCell align="left">
                             {" "}
                             <Chip
-                              label={bonus == 0 ? "In Active" : "Active"}
+                              label={bonus == 0 ? "False" : "True"}
                               color={bonus == 0 ? "error" : "success"}
-                              sx={{ height: "23px" }}
+                              sx={{ height: "20px" }}
                             />
                           </TableCell>
                           <TableCell align="left">{referral_id}</TableCell>
+                          <TableCell align="left">
+                            <FormControl fullWidth size="small">
+                              <InputLabel id="demo-simple-select-label">
+                                Status
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={status}
+                                label="Status"
+                                onChange={(e) => handleStatusChange(e, id)}
+                              >
+                                <MenuItem value={1}>Active</MenuItem>
+                                <MenuItem value={0}>InActive</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </TableCell>
                           <TableCell align="left">{date_of_birth}</TableCell>
                           <TableCell align="left">
                             {country == null || country == "null"
                               ? "-"
                               : country}
                           </TableCell>
+                          <TableCell align="left">{city}</TableCell>
                           <TableCell align="left">{address}</TableCell>
                           <TableCell align="left">{phone}</TableCell>
                           <TableCell align="left">
                             {moment(created_at).format("YYYY-MM-DD")}
                           </TableCell>
 
-                          {/* <TableCell align="left">
-                            <UserMoreMenu />
-                          </TableCell> */}
+                          <TableCell align="left">
+                            <UserMoreMenu options={MENU_OPTIONS} data={row} />
+                          </TableCell>
                         </TableRow>
                       );
                     })}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
                   </TableBody>
 
                   {isUserNotFound && (
@@ -252,9 +331,9 @@ export default function Users() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={USERLIST.length}
+              count={total}
               rowsPerPage={rowsPerPage}
-              page={page}
+              page={currentPage - 1}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />

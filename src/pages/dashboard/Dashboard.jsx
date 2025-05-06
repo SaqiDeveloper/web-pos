@@ -17,24 +17,35 @@ import { Page } from "src/components";
 //hooks
 import { useAppContext } from "src/hooks";
 import { useEffect, useState } from "react";
+import { GetDashboardData } from "src/DAL/Dashboard/Dashboard";
+import { useSnackbar } from "notistack";
 
 // ----------------------------------------------------------------------
 
 export default function Dashboard() {
-  const theme = useTheme();
-  const { _get_user_profile } = useAppContext();
-  const token = localStorage.getItem("token");
-  const [user, setUser] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [admin, setAdmin] = useState([]);
-  const [seller, setSeller] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
 
+  const FetchDashboardStats = async () => {
+    const resp = await GetDashboardData();
+    if (resp?.status == true) {
+      setData(resp?.data);
+      setLoading(false);
+    } else {
+      enqueueSnackbar(resp?.message, { variant: "error" });
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    FetchDashboardStats();
+  }, []);
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+          Hi, Welcome Back
         </Typography>
 
         {loading == true ? (
@@ -51,33 +62,25 @@ export default function Dashboard() {
               <Grid item xs={12} sm={6} md={3}>
                 <SummaryCard
                   color={"success"}
-                  title={"Users"}
-                  count={10}
+                  title={"Total Users"}
+                  count={data?.total_user}
                   icon={"fa6-solid:users"}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <SummaryCard
                   color={"primary"}
-                  title={"Products"}
-                  count={20}
+                  title={"Total Withdraw"}
+                  count={data?.total_withdraw}
                   icon={"fluent-mdl2:product-variant"}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <SummaryCard
                   color={"info"}
-                  title={"Admin Order"}
-                  count={20}
+                  title={"Total Deposit"}
+                  count={data?.total_deposit}
                   icon={"dashicons:admin-users"}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <SummaryCard
-                  color={"warning"}
-                  title={"Seller Order"}
-                  count={20}
-                  icon={"heroicons:currency-dollar-solid"}
                 />
               </Grid>
             </Grid>

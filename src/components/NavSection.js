@@ -18,8 +18,6 @@ import {
 } from "@mui/material";
 //
 import Iconify from "./Iconify";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 // ----------------------------------------------------------------------
 const ListItemStyle = styled((props) => (
@@ -97,10 +95,9 @@ function NavItem({ item, active }) {
           <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
           <ListItemText disableTypography primary={title} />
           {info && info}
-          <Box
-            component={Icon}
-            icon={open ? ArrowDownwardIcon : ArrowUpwardIcon}
-            sx={{ width: 16, height: 16, ml: 1 }}
+          <Iconify
+            icon={open ? "formkit:down" : "formkit:up"}
+            sx={{ fontSize: "10px" }}
           />
         </ListItemStyle>
 

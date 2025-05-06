@@ -1,0 +1,193 @@
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Chip,
+  Container,
+  Grid,
+  Typography,
+} from "@mui/material";
+import { useSnackbar } from "notistack";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Page } from "src/components";
+import Confirmation from "src/components/ConfirmModel";
+import {
+  DeleteBanner,
+  GetBannerList,
+  UpdateBannerStatus,
+} from "src/DAL/Banner/Banner";
+import illustration_login from "../../assets/media/illustration_login.png";
+
+export const BannerList = () => {
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [bannerId, setBannerId] = useState("");
+
+  const FetchAllanners = async () => {
+    const resp = await GetBannerList();
+    if (resp?.status == true) {
+      setData(resp?.data?.data);
+    }
+  };
+
+  const handleAddBanner = () => {
+    navigate("/add-banner");
+  };
+
+  const handleOpenModel = (id) => {
+    setBannerId(id);
+    setOpen(true);
+  };
+
+  const handleEdit = (val) => {
+    navigate(`/edit-banner/${val?.id}`, { state: val });
+  };
+
+  const UpdateStatus = async (status, id) => {
+    const data = {
+      status: status,
+      _method: "put",
+    };
+    const resp = await UpdateBannerStatus(id, data);
+    if (resp?.status == true) {
+      enqueueSnackbar(resp?.message, { variant: "success" });
+      FetchAllanners();
+    } else {
+      enqueueSnackbar(resp?.message, { variant: "error" });
+    }
+  };
+
+  const handleStatusActive = (val) => {
+    UpdateStatus(1, val?.id);
+  };
+  const handleStatusInActive = (val) => {
+    UpdateStatus(0, val?.id);
+  };
+
+  const handleDelete = async () => {
+    setOpen(false);
+    const resp = await DeleteBanner(bannerId);
+    if (resp?.status == true) {
+      enqueueSnackbar(resp?.message, { variant: "success" });
+      FetchAllanners();
+    } else {
+      enqueueSnackbar(resp?.message, { variant: "error" });
+    }
+  };
+
+  useEffect(() => {
+    FetchAllanners();
+  }, []);
+  return (
+    <>
+      <Confirmation open={open} setOpen={setOpen} onSubmit={handleDelete} />
+      <Page title="Banner">
+        <Container maxWidth="xl">
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant="h5" fontWeight={600}>
+              Banner List
+            </Typography>
+            <Button
+              variant="contained"
+              sx={{ textTransform: "none" }}
+              onClick={handleAddBanner}
+            >
+              Add Banner
+            </Button>
+          </Box>
+          <Box sx={{ marginTop: "20px" }}>
+            <Grid container spacing={2}>
+              {data?.map((val, index) => {
+                return (
+                  <>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                      <Card sx={{ width: "100%" }} className="card" key={index}>
+                        <CardMedia
+                          component="img"
+                          image={val?.image}
+                          sx={{ height: 180 }}
+                          alt=""
+                        />
+
+                        <CardContent
+                          sx={{
+                            textAlign: "end",
+                            display: "flex",
+                            gap: "10px",
+                            justifyContent: "end",
+                          }}
+                        >
+                          <Chip
+                            label={"In Active"}
+                            color={"error"}
+                            sx={{ height: "20px", cursor: "pointer" }}
+                            variant={
+                              val?.status == 0 ? "contained" : "outlined"
+                            }
+                            onClick={() => handleStatusInActive(val)}
+                          />
+                          <Chip
+                            label={"Active"}
+                            color={"success"}
+                            sx={{ height: "20px", cursor: "pointer" }}
+                            variant={
+                              val?.status == 1 ? "contained" : "outlined"
+                            }
+                            onClick={() => handleStatusActive(val)}
+                          />
+                        </CardContent>
+                        <CardActions
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Button
+                            size="small"
+                            variant="contained"
+                            sx={{ textTransform: "none", boxShadow: "none" }}
+                            onClick={() => handleEdit(val)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            size="small"
+                            variant="contained"
+                            sx={{
+                              textTransform: "none",
+                              backgroundColor: "red",
+                              boxShadow: "none",
+                              "&:hover": {
+                                backgroundColor: "red", // keep it red on hover too
+                              },
+                            }}
+                            onClick={() => handleOpenModel(val?.id)}
+                          >
+                            Delete
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  </>
+                );
+              })}
+            </Grid>
+          </Box>
+        </Container>
+      </Page>
+    </>
+  );
+};

@@ -17,7 +17,7 @@ export const logout = async (data) => {
     path: `admin/logout`,
     method: "GET",
     headers: {
-      // 'x-sh-auth': 1234
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     postData: data,
   };

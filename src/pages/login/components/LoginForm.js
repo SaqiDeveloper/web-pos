@@ -96,16 +96,7 @@ export default function LoginForm() {
         alignItems="center"
         justifyContent="space-between"
         sx={{ my: 2 }}
-      >
-        <Link
-          component={RouterLink}
-          variant="subtitle2"
-          to="/forgot-password"
-          underline="hover"
-        >
-          Forgot password?
-        </Link>
-      </Stack>
+      ></Stack>
 
       <LoadingButton
         fullWidth

@@ -39,8 +39,6 @@ const MainStyle = styled("div")(({ theme }) => ({
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
-  console.log(pathname, "djkfkfjgklfd");
-  const navigate = useNavigate();
   // ------------------------------------
   const handleNavigate = () => {
     if (localStorage.getItem("token")) {

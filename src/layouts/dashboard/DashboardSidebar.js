@@ -22,6 +22,8 @@ import Scrollbar from "../../components/Scrollbar";
 import NavSection from "../../components/NavSection";
 //
 import navConfig from "./NavConfig";
+import { logout } from "src/DAL/auth";
+import { useSnackbar } from "notistack";
 
 // ----------------------------------------------------------------------
 
@@ -61,19 +63,25 @@ DashboardSidebar.propTypes = {
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const { _get_user_profile } = useAppContext();
   const isDesktop = useResponsive("up", "lg");
   const profile = _get_user_profile();
   const [user, setUser] = useState();
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/login", { replace: true });
+  const handleLogout = async () => {
+    const resp = await logout();
+    if (resp?.status == true) {
+      localStorage.clear();
+      navigate("/login", { replace: true });
+      enqueueSnackbar(resp?.message, { variant: "success" });
+    } else {
+      enqueueSnackbar(resp?.message, { variant: "error" });
+    }
   };
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user_data"));
     setUser(userData);
-    console.log(userData, "dsjhfgsdfds");
     if (isOpenSidebar) {
       onCloseSidebar();
     }

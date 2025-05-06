@@ -20,6 +20,8 @@ import {
 import MenuPopover from "../../components/MenuPopover";
 //hooks
 import { useAppContext } from "src/hooks";
+import { logout } from "src/DAL/auth";
+import { useSnackbar } from "notistack";
 
 // ----------------------------------------------------------------------
 
@@ -36,6 +38,7 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const anchorRef = useRef(null);
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(null);
   const { _get_user_profile } = useAppContext();
   const profile = _get_user_profile();
@@ -51,9 +54,15 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/login", { replace: true });
+  const handleLogout = async () => {
+    const resp = await logout();
+    if (resp?.status == true) {
+      localStorage.clear();
+      navigate("/login", { replace: true });
+      enqueueSnackbar(resp?.message, { variant: "success" });
+    } else {
+      enqueueSnackbar(resp?.message, { variant: "error" });
+    }
   };
   const handleNavigate = (path) => {
     navigate(path);
