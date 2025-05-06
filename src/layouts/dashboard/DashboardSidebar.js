@@ -46,7 +46,7 @@ const AccountStyle = styled("div")(({ theme }) => ({
 const LogoutContainer = styled("div")(({ theme }) => ({
   paddingInline: theme.spacing(2.5),
   paddingBlock: theme.spacing(1),
-  marginTop: 15,
+  marginTop: 25,
   backgroundColor: "#ffff",
   position: "absolute",
   width: "100%",
@@ -169,11 +169,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           }}
         >
           {renderContent}
-          <LogoutContainer>
+          {/* <LogoutContainer>
             <Button onClick={handleLogout} variant="contained" fullWidth>
               Logout
             </Button>
-          </LogoutContainer>
+          </LogoutContainer> */}
         </Drawer>
       )}
     </RootStyle>

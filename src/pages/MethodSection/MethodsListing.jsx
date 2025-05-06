@@ -126,7 +126,7 @@ export default function MethodListingSection() {
       handleClick: handleDelete,
     },
     {
-      icon: "material-symbols-light:delete-rounded",
+      icon: "bxs:edit",
       title: "Edit",
       handleClick: handleEdit,
     },
@@ -161,14 +161,6 @@ export default function MethodListingSection() {
     } else {
       enqueueSnackbar(resp?.message, { variant: "error" });
     }
-  };
-
-  const handleSearch = () => {
-    GetPromotionListing();
-  };
-
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
   };
 
   const isUserNotFound = rankList?.length === 0;
@@ -211,12 +203,6 @@ export default function MethodListingSection() {
           <Card
             sx={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", mb: 1 }}
           >
-            {/* <UserListToolbar
-              filterName={filterName}
-              onFilterName={handleFilterByName}
-              onSubmit={handleSearch}
-            /> */}
-
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
                 <Table>

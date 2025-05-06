@@ -35,7 +35,6 @@ export default function LoginForm() {
     e.preventDefault();
     setIsLoading(true);
     const formData = new FormData();
-
     formData.append("email", formInputs.email);
     formData.append("password", formInputs.password);
 

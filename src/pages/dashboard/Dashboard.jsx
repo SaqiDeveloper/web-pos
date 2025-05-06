@@ -61,7 +61,7 @@ export default function Dashboard() {
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={3}>
                 <SummaryCard
-                  color={"success"}
+                  // color={"success"}
                   title={"Total Users"}
                   count={data?.total_user}
                   icon={"fa6-solid:users"}
@@ -69,7 +69,7 @@ export default function Dashboard() {
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <SummaryCard
-                  color={"primary"}
+                  // color={"primary"}
                   title={"Total Withdraw"}
                   count={data?.total_withdraw}
                   icon={"fluent-mdl2:product-variant"}
@@ -77,7 +77,7 @@ export default function Dashboard() {
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <SummaryCard
-                  color={"info"}
+                  // color={"info"}
                   title={"Total Deposit"}
                   count={data?.total_deposit}
                   icon={"dashicons:admin-users"}

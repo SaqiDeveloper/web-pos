@@ -4,9 +4,7 @@ export const login = async (data) => {
   const requestObj = {
     path: `admin/login`,
     method: "POST",
-    headers: {
-      // 'x-sh-auth': 1234
-    },
+    headers: {},
     postData: data,
   };
   return invokeApi(requestObj);

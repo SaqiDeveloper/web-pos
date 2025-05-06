@@ -20,67 +20,67 @@ const navConfig = [
   {
     title: "Banner List",
     path: "/banner-list",
-    icon: getIcon("fe:users"),
+    icon: getIcon("ph:flag-banner-fill"),
   },
   {
     title: "Ranks",
     path: "/all-ranks",
-    icon: getIcon("fe:users"),
+    icon: getIcon("icon-park-outline:ranking"),
   },
   {
     title: "Promotions",
     path: "/promotion-listing",
-    icon: getIcon("fe:users"),
+    icon: getIcon("hugeicons:promotion"),
   },
   {
     title: "Methods",
     path: "/all-methods",
-    icon: getIcon("fe:users"),
+    icon: getIcon("material-symbols:payments"),
   },
   {
     title: "Levels Commission",
     path: "/commission-level",
-    icon: getIcon("fe:users"),
+    icon: getIcon("healthicons:low-income-level-outline-24px"),
   },
   {
     title: "Deposit",
-    icon: getIcon("fe:users"),
+    icon: getIcon("ph:hand-deposit-fill"),
     children: [
       {
         title: "Pending Deposit List",
         path: "/pending-list",
-        icon: getIcon("fe:users"),
+        icon: getIcon("mdi:receipt-text-pending"),
       },
       {
         title: "Approved Deposit List",
         path: "/approved-list",
-        icon: getIcon("fe:users"),
+        icon: getIcon("mdi:tick-circle"),
       },
       {
         title: "Rejected Deposit List",
         path: "/rejected-list",
-        icon: getIcon("fe:users"),
+        icon: getIcon("mdi:cross-circle"),
       },
     ],
   },
   {
     title: "Withdraw List",
-    icon: getIcon("fe:users"),
+    icon: getIcon("ph:hand-withdraw-fill"),
     children: [
       {
         title: "Pending Withdraw List",
         path: "/pending",
-        icon: getIcon("fe:users"),
+        icon: getIcon("mdi:receipt-text-pending"),
       },
       {
         title: "Approved Withdraw List",
         path: "/approve",
-        icon: getIcon("fe:users"),
+        icon: getIcon("mdi:tick-circle"),
       },
       {
         title: "Rejected Withdraw List",
         path: "/reject",
-        icon: getIcon("fe:users"),
+        icon: getIcon("mdi:cross-circle"),
       },
     ],
   },

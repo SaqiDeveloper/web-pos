@@ -22,6 +22,8 @@ import MenuPopover from "../../components/MenuPopover";
 import { useAppContext } from "src/hooks";
 import { logout } from "src/DAL/auth";
 import { useSnackbar } from "notistack";
+import { Iconify } from "src/components";
+import { fontSize } from "@mui/system";
 
 // ----------------------------------------------------------------------
 
@@ -64,9 +66,6 @@ export default function AccountPopover() {
       enqueueSnackbar(resp?.message, { variant: "error" });
     }
   };
-  const handleNavigate = (path) => {
-    navigate(path);
-  };
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user_data"));
@@ -82,7 +81,6 @@ export default function AccountPopover() {
           p: 0,
           ...(open && {
             "&:before": {
-              zIndex: 1,
               content: "''",
               width: "100%",
               height: "100%",
@@ -122,7 +120,7 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {user?.username}
+            {user?.name}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
             {user?.email}
@@ -131,33 +129,11 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
-        {/* <Stack sx={{ p: 1 }}>
-          {MENU_OPTIONS.map((option) => (
-            <MenuItem
-              key={option.label}
-              to={option.path}
-              component={RouterLink}
-              // onClick={() => handleNavigate(option.path)}
-              sx={{
-                color: match(option.path)
-                  ? (theme) => theme.palette.primary.main
-                  : "black",
-                bgcolor: match(option.path)
-                  ? (theme) =>
-                      alpha(
-                        theme.palette.primary.main,
-                        theme.palette.action.selectedOpacity
-                      )
-                  : "",
-              }}
-              onClick={handleClose}
-            >
-              {option.label}
-            </MenuItem>
-          ))}
-        </Stack> */}
-
-        <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
+        <MenuItem
+          onClick={handleLogout}
+          sx={{ m: 1, display: "flex", gap: "10px" }}
+        >
+          <Iconify icon={"ri:logout-box-line"} sx={{ fontSize: "16px" }} />{" "}
           Logout
         </MenuItem>
       </MenuPopover>

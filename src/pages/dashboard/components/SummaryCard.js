@@ -42,11 +42,11 @@ export default function SummaryCard({
     <Card
       sx={{
         py: 2,
-        boxShadow: 0,
+        boxShadow: 6,
         textAlign: "center",
         height: 140,
         color: (theme) => theme.palette[color].darker,
-        bgcolor: (theme) => theme.palette[color].lighter,
+        // bgcolor: (theme) => theme.palette[color].lighter,
         ...sx,
       }}
       {...other}

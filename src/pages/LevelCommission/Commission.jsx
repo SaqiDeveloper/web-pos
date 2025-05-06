@@ -90,8 +90,8 @@ export default function CommissionLevel() {
 
   const MENU_OPTIONS = [
     {
-      icon: "material-symbols-light:delete-rounded",
-      title: "Add Commission",
+      icon: "bxs:edit",
+      title: "Update Commission",
       handleClick: handleAddCommission,
     },
   ];

@@ -117,7 +117,7 @@ export default function PromotionListing() {
       handleClick: handleDelete,
     },
     {
-      icon: "material-symbols-light:delete-rounded",
+      icon: "bxs:edit",
       title: "Edit",
       handleClick: handleEdit,
     },

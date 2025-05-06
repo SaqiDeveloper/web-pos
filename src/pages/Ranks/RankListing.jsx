@@ -121,7 +121,7 @@ export default function RankListing() {
       handleClick: handleDelete,
     },
     {
-      icon: "material-symbols-light:delete-rounded",
+      icon: "bxs:edit",
       title: "Edit",
       handleClick: handleEdit,
     },
