@@ -56,10 +56,11 @@ export default function Confirmation({ open, setOpen, onSubmit }) {
               size="small"
               sx={{
                 textTransform: "none",
-                backgroundColor: "red",
+                backgroundColor: "#d32f2f",
+                color: "white",
                 boxShadow: "none",
                 "&:hover": {
-                  backgroundColor: "red", // keep it red on hover too
+                  backgroundColor: "#d32f2f", // keep it red on hover too
                 },
               }}
               onClick={onSubmit}

@@ -46,6 +46,7 @@ export default function SummaryCard({
         textAlign: "center",
         height: 140,
         color: (theme) => theme.palette[color].darker,
+
         // bgcolor: (theme) => theme.palette[color].lighter,
         ...sx,
       }}

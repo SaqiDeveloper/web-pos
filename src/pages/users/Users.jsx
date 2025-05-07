@@ -42,6 +42,7 @@ import { useSnackbar } from "notistack";
 import ImageModel from "src/components/ShowImageModel";
 import ChangePasswordModel from "src/components/ChangePasswordModel";
 import AddBalanceModel from "src/components/AddBalanceModel";
+import ReasonModel from "src/components/ReasonModel";
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -55,6 +56,7 @@ const TABLE_HEAD = [
   { id: "email", label: "Email", alignRight: false },
   { id: "is_mining", label: "Mining", alignRight: false },
   { id: "balance", label: "Balance", alignRight: false },
+  { id: "rank", label: "Rank", alignRight: false },
   { id: "bonus", label: "Bonus", alignRight: false },
   { id: "referral_id", label: "Referral ID", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
@@ -81,6 +83,9 @@ export default function Users() {
   const [openModel, setOpenModel] = useState(false);
   const [openBalanceModel, setOpenBalanceModel] = useState(false);
   const [userId, setUserId] = useState("");
+  const [reason, setReason] = useState("");
+  const [reasonModel, setReasonModel] = useState(false);
+  const [type, setType] = useState("Add");
 
   const getAllUsers = async () => {
     const resp = await AllUsers(page, rowsPerPage, filterName);
@@ -95,18 +100,37 @@ export default function Users() {
     }
   };
 
-  const handleStatusChange = async (e, id) => {
+  const UpdateStatus = async (val, id) => {
     const data = {
-      status: e.target.value,
+      status: val,
       _method: "put",
     };
-    const resp = await UpdateUserStatus(id, data);
+    const formData = new FormData();
+    formData.append("status", val);
+    formData.append("_method", "put");
+    formData.append("reason", reason);
+    const resp = await UpdateUserStatus(val == 1 ? id : userId, data);
     if (resp?.status == true) {
       enqueueSnackbar(resp?.message, { variant: "success" });
       getAllUsers();
     } else {
       enqueueSnackbar(resp?.message, { variant: "error" });
     }
+  };
+
+  const handleStatusChange = async (e, id) => {
+    if (e.target.value == 0) {
+      setReasonModel(true);
+      setUserId(id);
+      return;
+    } else {
+      UpdateStatus(e.target.value, id);
+    }
+  };
+
+  const handleInActiveStatus = () => {
+    setReasonModel(false);
+    UpdateStatus(0);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -139,7 +163,12 @@ export default function Users() {
     setOpenModel(true);
   };
   const handleAddBalance = (val) => {
-    setUserId(val?.id);
+    setUserId(val);
+    setOpenBalanceModel(true);
+  };
+  const handleRemoveBalance = (val) => {
+    setUserId(val);
+    setType("Remove");
     setOpenBalanceModel(true);
   };
 
@@ -164,9 +193,14 @@ export default function Users() {
       handleClick: handleUpdateProfile,
     },
     {
-      icon: "mdi:cash-sync",
+      icon: "subway:add",
       title: "Add Balance",
       handleClick: handleAddBalance,
+    },
+    {
+      icon: "el:remove-sign",
+      title: "Remove Balance",
+      handleClick: handleRemoveBalance,
     },
   ];
 
@@ -174,13 +208,22 @@ export default function Users() {
 
   useEffect(() => {
     getAllUsers();
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, openBalanceModel]);
   return (
     <Page title="User">
+      <ReasonModel
+        open={reasonModel}
+        setOpen={setReasonModel}
+        onSubmit={handleInActiveStatus}
+        setReason={setReason}
+        status={0}
+      />
       <AddBalanceModel
         open={openBalanceModel}
         setOpen={setOpenBalanceModel}
         userId={userId}
+        type={type}
+        setType={setType}
       />
       <ChangePasswordModel
         open={openModel}
@@ -240,6 +283,7 @@ export default function Users() {
                         referred_by,
                         city,
                         status,
+                        rank_name,
                       } = row;
 
                       return (
@@ -268,6 +312,7 @@ export default function Users() {
                             />
                           </TableCell>
                           <TableCell align="left">{balance}</TableCell>
+                          <TableCell align="left">{rank_name}</TableCell>
                           <TableCell align="left">
                             {" "}
                             <Chip
@@ -304,9 +349,12 @@ export default function Users() {
                           </TableCell>
                           <TableCell align="left">{city}</TableCell>
                           <TableCell align="left">{address}</TableCell>
+
                           <TableCell align="left">{phone}</TableCell>
                           <TableCell align="left">
-                            {moment(created_at).format("YYYY-MM-DD")}
+                            {created_at == null
+                              ? "-"
+                              : moment(created_at).format("YYYY-MM-DD")}
                           </TableCell>
 
                           <TableCell align="left">

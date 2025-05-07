@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 //
 import Iconify from "./Iconify";
+import { color } from "@mui/system";
 
 // ----------------------------------------------------------------------
 const ListItemStyle = styled((props) => (
@@ -41,6 +42,10 @@ const ListItemStyle = styled((props) => (
     borderTopLeftRadius: 4,
     borderBottomLeftRadius: 4,
     backgroundColor: theme.palette.primary.main,
+  },
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.primary.main, 0.1), // light hover effect
+    color: theme.palette.text.primary, // text color on hover
   },
 }));
 
@@ -69,18 +74,30 @@ function NavItem({ item, active }) {
   };
 
   const activeRootStyle = {
-    color: "primary.main",
+    color: "black",
     fontWeight: "fontWeightMedium",
     bgcolor: alpha(
       theme.palette.primary.main,
       theme.palette.action.selectedOpacity
     ),
     "&:before": { display: "block" },
+    "&:hover": {
+      color: "black",
+      bgcolor: alpha(
+        theme.palette.primary.main,
+        theme.palette.action.selectedOpacity // fallback if hoverOpacity is undefined
+      ),
+    },
   };
 
   const activeSubStyle = {
-    color: "text.primary",
+    color: "black",
     fontWeight: "fontWeightMedium",
+    bgcolor: alpha(
+      theme.palette.primary.main,
+      theme.palette.action.selectedOpacity
+    ),
+    "&:before": { display: "block" },
   };
 
   if (children) {
@@ -96,7 +113,7 @@ function NavItem({ item, active }) {
           <ListItemText disableTypography primary={title} />
           {info && info}
           <Iconify
-            icon={open ? "formkit:down" : "formkit:up"}
+            icon={!open ? "formkit:down" : "formkit:up"}
             sx={{ fontSize: "10px" }}
           />
         </ListItemStyle>

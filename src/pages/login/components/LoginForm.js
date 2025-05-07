@@ -103,6 +103,7 @@ export default function LoginForm() {
         type="submit"
         variant="contained"
         loading={isLoading}
+        sx={{ textTransform: "none", fontSize: "15px" }}
       >
         {isLoading == true ? "Login.." : "Login"}
       </LoadingButton>

@@ -109,10 +109,14 @@ export default function Deposits() {
     setOpenModel(true);
   };
 
-  const UpdateStatus = async (val) => {
+  const UpdateStatus = async (val, id) => {
     setOpen(false);
     const formData = new FormData();
-    formData.append("id", depositId);
+    if (val == 1) {
+      formData.append("id", id);
+    } else {
+      formData.append("id", depositId);
+    }
     formData.append("status", val);
     formData.append("_method", "put");
     if (val == 2) {
@@ -136,7 +140,7 @@ export default function Deposits() {
       setOpen(true);
       return;
     } else {
-      UpdateStatus(e.target.value);
+      UpdateStatus(e.target.value, id);
     }
   };
 

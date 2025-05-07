@@ -58,3 +58,15 @@ export const AddUserBalance = async (data) => {
   };
   return invokeApi(requestObj);
 };
+export const RemoveUserBalance = async (data) => {
+  const requestObj = {
+    path: `admin/user/remove/balance`,
+    method: "POST",
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    postData: data,
+  };
+  return invokeApi(requestObj);
+};

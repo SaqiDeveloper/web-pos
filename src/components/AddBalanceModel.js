@@ -6,7 +6,11 @@ import Modal from "@mui/material/Modal";
 import Iconify from "./Iconify";
 import { FormHelperText, TextField } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { AddUserBalance, UserPasswordUpdate } from "src/DAL/Users/User";
+import {
+  AddUserBalance,
+  RemoveUserBalance,
+  UserPasswordUpdate,
+} from "src/DAL/Users/User";
 
 const style = {
   position: "absolute",
@@ -18,7 +22,13 @@ const style = {
   p: 3,
 };
 
-export default function AddBalanceModel({ open, setOpen, userId }) {
+export default function AddBalanceModel({
+  open,
+  setOpen,
+  userId,
+  type,
+  setType,
+}) {
   const handleClose = () => setOpen(false);
   const { enqueueSnackbar } = useSnackbar();
   const [balance, setBalance] = React.useState("");
@@ -31,13 +41,17 @@ export default function AddBalanceModel({ open, setOpen, userId }) {
     e.preventDefault();
 
     const data = {
-      id: userId,
+      id: userId?.id,
       balance: balance,
     };
 
-    const resp = await AddUserBalance(data);
+    const resp =
+      type == "Add"
+        ? await AddUserBalance(data)
+        : await RemoveUserBalance(data);
     if (resp?.status == true) {
       setOpen(false);
+      setType("Add");
       enqueueSnackbar(resp?.message, { variant: "success" });
     } else if (typeof resp?.message == "string") {
       enqueueSnackbar(resp?.message, { variant: "error" });
@@ -46,6 +60,9 @@ export default function AddBalanceModel({ open, setOpen, userId }) {
     }
   };
 
+  React.useEffect(() => {
+    setBalance(userId?.balance);
+  }, [userId]);
   return (
     <div>
       <Modal
@@ -55,11 +72,12 @@ export default function AddBalanceModel({ open, setOpen, userId }) {
       >
         <Box sx={style}>
           <Typography variant="h6" sx={{ textAlign: "center" }}>
-            Add Balance
+            {type} Balance
           </Typography>
           <TextField
             label="Balance *"
             fullWidth
+            value={balance}
             onChange={handleChange}
             sx={{ marginTop: "15px" }}
             size="small"

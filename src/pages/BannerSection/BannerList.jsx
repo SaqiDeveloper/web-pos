@@ -6,6 +6,7 @@ import {
   CardContent,
   CardMedia,
   Chip,
+  CircularProgress,
   Container,
   Grid,
   Typography,
@@ -31,9 +32,13 @@ export const BannerList = () => {
   const [bannerId, setBannerId] = useState("");
 
   const FetchAllanners = async () => {
+    setLoading(true);
     const resp = await GetBannerList();
     if (resp?.status == true) {
       setData(resp?.data?.data);
+      setLoading(false);
+    } else {
+      enqueueSnackbar(resp?.message, { variant: "error" });
     }
   };
 
@@ -87,107 +92,130 @@ export const BannerList = () => {
   }, []);
   return (
     <>
-      <Confirmation open={open} setOpen={setOpen} onSubmit={handleDelete} />
-      <Page title="Banner">
-        <Container maxWidth="xl">
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography variant="h5" fontWeight={600}>
-              Banner List
-            </Typography>
-            <Button
-              variant="contained"
-              sx={{ textTransform: "none" }}
-              onClick={handleAddBanner}
-            >
-              Add Banner
-            </Button>
+      {loading == true ? (
+        <>
+          <Box sx={{ position: "absolute", top: "45%", left: "50%" }}>
+            <CircularProgress />
           </Box>
-          <Box sx={{ marginTop: "20px" }}>
-            <Grid container spacing={2}>
-              {data?.map((val, index) => {
-                return (
-                  <>
-                    <Grid item lg={3} md={4} sm={6} xs={12}>
-                      <Card sx={{ width: "100%" }} className="card" key={index}>
-                        <CardMedia
-                          component="img"
-                          image={val?.image}
-                          sx={{ height: 180 }}
-                          alt=""
-                        />
+        </>
+      ) : (
+        <>
+          <Confirmation open={open} setOpen={setOpen} onSubmit={handleDelete} />
+          <Page title="Banner">
+            <Container maxWidth="xl">
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="h5" fontWeight={600}>
+                  Banner List
+                </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ textTransform: "none" }}
+                  onClick={handleAddBanner}
+                >
+                  Add Banner
+                </Button>
+              </Box>
+              <Box sx={{ marginTop: "20px" }}>
+                <Grid container spacing={2}>
+                  {data?.map((val, index) => {
+                    return (
+                      <>
+                        <Grid item lg={3} md={4} sm={6} xs={12}>
+                          <Card
+                            sx={{ width: "100%" }}
+                            className="card"
+                            key={index}
+                          >
+                            <CardMedia
+                              component="img"
+                              image={val?.image}
+                              sx={{ height: 180 }}
+                              alt=""
+                            />
 
-                        <CardContent
-                          sx={{
-                            textAlign: "end",
-                            display: "flex",
-                            gap: "10px",
-                            justifyContent: "end",
-                          }}
-                        >
-                          <Chip
-                            label={"In Active"}
-                            color={"error"}
-                            sx={{ height: "20px", cursor: "pointer" }}
-                            variant={
-                              val?.status == 0 ? "contained" : "outlined"
-                            }
-                            onClick={() => handleStatusInActive(val)}
-                          />
-                          <Chip
-                            label={"Active"}
-                            color={"success"}
-                            sx={{ height: "20px", cursor: "pointer" }}
-                            variant={
-                              val?.status == 1 ? "contained" : "outlined"
-                            }
-                            onClick={() => handleStatusActive(val)}
-                          />
-                        </CardContent>
-                        <CardActions
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Button
-                            size="small"
-                            variant="contained"
-                            sx={{ textTransform: "none", boxShadow: "none" }}
-                            onClick={() => handleEdit(val)}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            size="small"
-                            variant="contained"
-                            sx={{
-                              textTransform: "none",
-                              backgroundColor: "red",
-                              boxShadow: "none",
-                              "&:hover": {
-                                backgroundColor: "red", // keep it red on hover too
-                              },
-                            }}
-                            onClick={() => handleOpenModel(val?.id)}
-                          >
-                            Delete
-                          </Button>
-                        </CardActions>
-                      </Card>
-                    </Grid>
-                  </>
-                );
-              })}
-            </Grid>
-          </Box>
-        </Container>
-      </Page>
+                            <CardContent
+                              sx={{
+                                textAlign: "end",
+                                display: "flex",
+                                gap: "10px",
+                                justifyContent: "end",
+                              }}
+                            >
+                              <Chip
+                                label={"In Active"}
+                                color={"error"}
+                                sx={{ height: "20px", cursor: "pointer" }}
+                                variant={
+                                  val?.status == 0 ? "contained" : "outlined"
+                                }
+                                onClick={() => handleStatusInActive(val)}
+                              />
+                              <Chip
+                                label={"Active"}
+                                color={"success"}
+                                sx={{ height: "20px", cursor: "pointer" }}
+                                variant={
+                                  val?.status == 1 ? "contained" : "outlined"
+                                }
+                                onClick={() => handleStatusActive(val)}
+                              />
+                            </CardContent>
+                            <CardActions
+                              sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              <Button
+                                size="small"
+                                variant="contained"
+                                sx={{
+                                  textTransform: "none",
+                                  boxShadow: "none",
+                                  backgroundColor: "#42a5f5",
+                                  color: "white",
+                                  "&:hover": {
+                                    backgroundColor: "#42a5f5", // keep it red on hover too
+                                  },
+                                }}
+                                onClick={() => handleEdit(val)}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                size="small"
+                                variant="contained"
+                                sx={{
+                                  textTransform: "none",
+                                  backgroundColor: "#d32f2f",
+                                  boxShadow: "none",
+                                  color: "white",
+                                  "&:hover": {
+                                    backgroundColor: "#d32f2f", // keep it red on hover too
+                                  },
+                                }}
+                                onClick={() => handleOpenModel(val?.id)}
+                              >
+                                Delete
+                              </Button>
+                            </CardActions>
+                          </Card>
+                        </Grid>
+                      </>
+                    );
+                  })}
+                </Grid>
+              </Box>
+            </Container>
+          </Page>
+        </>
+      )}
     </>
   );
 };
