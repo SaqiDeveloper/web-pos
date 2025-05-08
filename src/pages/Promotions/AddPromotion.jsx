@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   FormHelperText,
   Grid,
@@ -35,13 +36,16 @@ export const AddPromotion = () => {
   });
 
   const FetchRankDetail = useCallback(async () => {
+    setLoading(true);
     const resp = await GetPromotionDataById(id);
     if (resp?.status == true) {
       setInputs({ title: resp?.data?.title, body: resp?.data?.body });
       setImagePreview(resp?.data?.image);
       setFormType("edit");
+      setLoading(false);
     } else {
       setFormType("edit");
+      setLoading(false);
       enqueueSnackbar(resp?.message, { variant: "error" });
     }
   }, [id]);
@@ -95,106 +99,112 @@ export const AddPromotion = () => {
   }, [id]);
   return (
     <>
-      <Page title="Add Rank">
-        <Container maxWidth="xl">
-          <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <Iconify
-              icon={"material-symbols:arrow-back-rounded"}
-              sx={{ fontSize: "22px", cursor: "pointer" }}
-              onClick={() => navigate(-1)}
-            />
-            <Typography variant="h5" fontWeight={600}>
-              {formType == "add" ? "Add Promotion" : "Edit Promotion"}
-            </Typography>
-          </Box>
-          <Grid container spacing={2} sx={{ marginTop: "10px" }}>
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-              <TextField
-                label="Title *"
-                name="title"
-                value={inputs?.title}
-                onChange={handleChange}
-                fullWidth
-                size="small"
+      {loading == true ? (
+        <Box sx={{ position: "absolute", top: "50%", left: "45%" }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Page title={formType == "add" ? "Add Promotion" : "Edit Promotion"}>
+          <Container maxWidth="xl">
+            <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Iconify
+                icon={"material-symbols:arrow-back-rounded"}
+                sx={{ fontSize: "22px", cursor: "pointer" }}
+                onClick={() => navigate(-1)}
               />
-              <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
-                {error?.title && error?.title[0]}
-              </FormHelperText>
-            </Grid>
-            <Grid item lg={12} md={12} sm={12} xs={12}>
-              <TextField
-                label="Description *"
-                name="body"
-                rows={4}
-                multiline
-                value={inputs?.body}
-                onChange={handleChange}
-                fullWidth
-                size="small"
-              />
-              <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
-                {error?.body && error?.body[0]}
-              </FormHelperText>
-            </Grid>
-            <Grid item lg={12} md={12} sm={12} xs={12}>
-              <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
-                <div className="row w-100 div-style ms-0 pt-0">
-                  <div className="col-4">
-                    <p className="">Upload Image * </p>
-                    <FormHelperText className="pt-0">
-                      Supported Format ("JPG", "JPEG", "PNG", "WEBP")
-                    </FormHelperText>
-                  </div>
-                  <div className="col-3">
-                    {imagePreview && (
-                      <img src={imagePreview} height="60" width={"150"} />
-                    )}
-                  </div>
-                  <div className="col-5 text-end pt-2 ">
-                    <label htmlFor="brand-logo-input">
-                      <Input
-                        accept="image/*"
-                        id="brand-logo-input"
-                        type="file"
-                        name="image"
-                        className="d-none"
-                        onChange={handleImageChange}
-                      />
-                      <Button
-                        variant="outlined"
-                        startIcon={<FileUploadIcon className="uploadIcon" />}
-                        component="span"
-                      >
-                        Upload
-                      </Button>
-                    </label>
+              <Typography variant="h5" fontWeight={600}>
+                {formType == "add" ? "Add Promotion" : "Edit Promotion"}
+              </Typography>
+            </Box>
+            <Grid container spacing={2} sx={{ marginTop: "10px" }}>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <TextField
+                  label="Title *"
+                  name="title"
+                  value={inputs?.title}
+                  onChange={handleChange}
+                  fullWidth
+                  size="small"
+                />
+                <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
+                  {error?.title && error?.title[0]}
+                </FormHelperText>
+              </Grid>
+              <Grid item lg={12} md={12} sm={12} xs={12}>
+                <TextField
+                  label="Description *"
+                  name="body"
+                  rows={4}
+                  multiline
+                  value={inputs?.body}
+                  onChange={handleChange}
+                  fullWidth
+                  size="small"
+                />
+                <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
+                  {error?.body && error?.body[0]}
+                </FormHelperText>
+              </Grid>
+              <Grid item lg={12} md={12} sm={12} xs={12}>
+                <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
+                  <div className="row w-100 div-style ms-0 pt-0">
+                    <div className="col-4">
+                      <p className="">Upload Image * </p>
+                      <FormHelperText className="pt-0">
+                        Supported Format ("JPG", "JPEG", "PNG", "WEBP")
+                      </FormHelperText>
+                    </div>
+                    <div className="col-3">
+                      {imagePreview && (
+                        <img src={imagePreview} height="60" width={"150"} />
+                      )}
+                    </div>
+                    <div className="col-5 text-end pt-2 ">
+                      <label htmlFor="brand-logo-input">
+                        <Input
+                          accept="image/*"
+                          id="brand-logo-input"
+                          type="file"
+                          name="image"
+                          className="d-none"
+                          onChange={handleImageChange}
+                        />
+                        <Button
+                          variant="outlined"
+                          startIcon={<FileUploadIcon className="uploadIcon" />}
+                          component="span"
+                        >
+                          Upload
+                        </Button>
+                      </label>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
-                {error?.image && error?.image[0]}
-              </FormHelperText>
-            </Grid>
+                <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
+                  {error?.image && error?.image[0]}
+                </FormHelperText>
+              </Grid>
 
-            <Grid
-              item
-              lg={12}
-              md={12}
-              sm={12}
-              xs={12}
-              sx={{ textAlign: "end" }}
-            >
-              <Button
-                variant="contained"
-                onClick={handleSubmit}
-                disabled={loading == true}
+              <Grid
+                item
+                lg={12}
+                md={12}
+                sm={12}
+                xs={12}
+                sx={{ textAlign: "end" }}
               >
-                Submit
-              </Button>
+                <Button
+                  variant="contained"
+                  onClick={handleSubmit}
+                  disabled={loading == true}
+                >
+                  Submit
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-      </Page>
+          </Container>
+        </Page>
+      )}
     </>
   );
 };

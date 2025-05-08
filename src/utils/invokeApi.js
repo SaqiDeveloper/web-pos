@@ -43,8 +43,8 @@ export async function invokeApi({
     console.log("<===Api-Error===>", error.response.data);
 
     if (error.response.status === 401) {
-      // localStorage.clear();
-      // window.location.reload();
+      localStorage.clear();
+      window.location.reload();
     }
     return {
       code: error.response.status,

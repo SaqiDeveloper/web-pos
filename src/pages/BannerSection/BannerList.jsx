@@ -141,30 +141,42 @@ export const BannerList = () => {
 
                             <CardContent
                               sx={{
-                                textAlign: "end",
                                 display: "flex",
-                                gap: "10px",
-                                justifyContent: "end",
+                                justifyContent: "space-between",
                               }}
                             >
                               <Chip
-                                label={"In Active"}
-                                color={"error"}
-                                sx={{ height: "20px", cursor: "pointer" }}
-                                variant={
-                                  val?.status == 0 ? "contained" : "outlined"
+                                label={val?.is_internal == 1 ? "True" : "False"}
+                                color={
+                                  val?.is_internal == 0 ? "error" : "success"
                                 }
-                                onClick={() => handleStatusInActive(val)}
+                                sx={{
+                                  height: "20px",
+                                  cursor: "pointer",
+                                  color: "white",
+                                }}
+                                variant={"contained"}
                               />
-                              <Chip
-                                label={"Active"}
-                                color={"success"}
-                                sx={{ height: "20px", cursor: "pointer" }}
-                                variant={
-                                  val?.status == 1 ? "contained" : "outlined"
-                                }
-                                onClick={() => handleStatusActive(val)}
-                              />
+                              <div style={{ display: "flex", gap: "5px" }}>
+                                <Chip
+                                  label={"In Active"}
+                                  color={"error"}
+                                  sx={{ height: "20px", cursor: "pointer" }}
+                                  variant={
+                                    val?.status == 0 ? "contained" : "outlined"
+                                  }
+                                  onClick={() => handleStatusInActive(val)}
+                                />
+                                <Chip
+                                  label={"Active"}
+                                  color={"success"}
+                                  sx={{ height: "20px", cursor: "pointer" }}
+                                  variant={
+                                    val?.status == 1 ? "contained" : "outlined"
+                                  }
+                                  onClick={() => handleStatusActive(val)}
+                                />
+                              </div>
                             </CardContent>
                             <CardActions
                               sx={{

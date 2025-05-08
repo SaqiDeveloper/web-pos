@@ -2,9 +2,13 @@ import {
   Box,
   Button,
   Container,
+  FormControl,
   FormHelperText,
   Grid,
   Input,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -23,6 +27,7 @@ export const EditBanner = () => {
   const [inputs, setInputs] = useState({
     url: "",
     image: "",
+    is_internal: "",
   });
   const [ImageUrl, setImageUrl] = useState("");
 
@@ -46,6 +51,7 @@ export const EditBanner = () => {
     setLoading(true);
     const formData = new FormData();
     formData.append("url", inputs?.url);
+    formData.append("is_internal", inputs?.is_internal);
     if (inputs?.image) {
       formData.append("image", inputs?.image);
     }
@@ -64,7 +70,7 @@ export const EditBanner = () => {
   };
 
   useEffect(() => {
-    setInputs({ url: state?.url });
+    setInputs({ url: state?.url, is_internal: state?.is_internal });
     setImageUrl(state?.image);
   }, [state]);
   return (
@@ -85,7 +91,7 @@ export const EditBanner = () => {
             <Grid container spacing={2}>
               <Grid item lg={6} md={6} sm={6} xs={12}>
                 <TextField
-                  label="Url"
+                  label="Url *"
                   type="text"
                   name="url"
                   value={inputs?.url}
@@ -93,6 +99,24 @@ export const EditBanner = () => {
                   size="small"
                   onChange={handleChange}
                 />
+              </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">
+                    Is Internal *
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={inputs?.is_internal}
+                    name="is_internal"
+                    label="Is Internal *"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={1}>True</MenuItem>
+                    <MenuItem value={0}>False</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <div
                 style={{

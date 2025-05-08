@@ -169,7 +169,7 @@ export default function MethodListingSection() {
     GetPromotionListing();
   }, [page, rowsPerPage]);
   return (
-    <Page title="Promotion">
+    <Page title="Methods">
       <ImageModel open={openModel} setOpen={setOpenModel} data={image} />
       <Confirmation open={open} setOpen={setOpen} onSubmit={DeleteData} />
       <Container maxWidth="xl">
