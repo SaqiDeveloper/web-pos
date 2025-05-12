@@ -29,7 +29,10 @@ export default function AddBalanceModel({
   type,
   setType,
 }) {
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setType("Add");
+  };
   const { enqueueSnackbar } = useSnackbar();
   const [balance, setBalance] = React.useState("");
   const [error, setError] = React.useState(null);

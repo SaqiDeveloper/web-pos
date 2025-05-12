@@ -206,7 +206,13 @@ export default function PromotionListing() {
                       } = row;
 
                       return (
-                        <TableRow hover key={id} sx={{ whiteSpace: "nowrap" }}>
+                        <TableRow
+                          hover
+                          key={id}
+                          sx={{
+                            whiteSpace: "nowrap",
+                          }}
+                        >
                           <TableCell padding="checkbox"></TableCell>
 
                           <TableCell align="left">{title}</TableCell>

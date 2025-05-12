@@ -41,7 +41,7 @@ const AccountStyle = styled("div")(({ theme }) => ({
   alignItems: "center",
   padding: theme.spacing(2, 2.5),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
-  backgroundColor: theme.palette.grey[500_12],
+  backgroundColor: "#ffeac9",
 }));
 const LogoutContainer = styled("div")(({ theme }) => ({
   paddingInline: theme.spacing(2.5),
@@ -111,7 +111,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none" component={RouterLink} to="/">
+        <Link underline="none">
           <AccountStyle>
             {profile.image ? (
               <>
@@ -119,7 +119,12 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
               </>
             ) : (
               <>
-                <Avatar sx={{ bgcolor: (theme) => theme.palette.primary.main }}>
+                <Avatar
+                  sx={{
+                    bgcolor: (theme) => theme.palette.primary.main,
+                    color: "#000",
+                  }}
+                >
                   {user?.username?.charAt(0)}
                 </Avatar>
               </>
@@ -169,11 +174,6 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           }}
         >
           {renderContent}
-          {/* <LogoutContainer>
-            <Button onClick={handleLogout} variant="contained" fullWidth>
-              Logout
-            </Button>
-          </LogoutContainer> */}
         </Drawer>
       )}
     </RootStyle>

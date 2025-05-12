@@ -154,7 +154,7 @@ export const AddBanner = () => {
                           icon="zondicons:upload"
                           style={{
                             cursor: "pointer",
-                            color: "#00AB55",
+                            color: "#d49b42",
                             fontSize: "35px",
                           }}
                         />

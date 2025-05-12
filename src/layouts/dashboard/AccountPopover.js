@@ -23,17 +23,6 @@ import { useAppContext } from "src/hooks";
 import { logout } from "src/DAL/auth";
 import { useSnackbar } from "notistack";
 import { Iconify } from "src/components";
-import { fontSize } from "@mui/system";
-
-// ----------------------------------------------------------------------
-
-const MENU_OPTIONS = [
-  // {
-  //   label: "Profile",
-  //   icon: "eva:person-fill",
-  //   path: "/profile",
-  // },
-];
 
 // ----------------------------------------------------------------------
 
@@ -97,7 +86,12 @@ export default function AccountPopover() {
           </>
         ) : (
           <>
-            <Avatar sx={{ bgcolor: (theme) => theme.palette.primary.main }}>
+            <Avatar
+              sx={{
+                bgcolor: (theme) => theme.palette.primary.main,
+                color: "#000",
+              }}
+            >
               {user?.username?.charAt(0)}
             </Avatar>
           </>
