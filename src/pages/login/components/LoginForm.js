@@ -9,6 +9,7 @@ import {
   IconButton,
   InputAdornment,
   FormControl,
+  FormHelperText,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 // component
@@ -23,6 +24,7 @@ export default function LoginForm() {
   const [formInputs, setFormInputs] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { enqueueSnackbar } = useSnackbar();
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
@@ -48,8 +50,12 @@ export default function LoginForm() {
       setIsLoading(false);
 
       navigate("/dashboard");
-    } else {
+    } else if (typeof result?.message == "string") {
+      setIsLoading(false);
       enqueueSnackbar(result.message, { variant: "error" });
+    } else {
+      setIsLoading(false);
+      setError(result?.message);
     }
   };
 
@@ -66,7 +72,11 @@ export default function LoginForm() {
           type="email"
           label="Email address"
         />
-
+        {error?.email && (
+          <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
+            {error?.email[0]}
+          </FormHelperText>
+        )}
         <TextField
           value={formInputs.password}
           onChange={handleChange}
@@ -88,6 +98,11 @@ export default function LoginForm() {
             ),
           }}
         />
+        {error?.password && (
+          <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
+            {error?.password[0]}
+          </FormHelperText>
+        )}
       </Stack>
 
       <Stack

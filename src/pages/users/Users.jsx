@@ -60,6 +60,7 @@ const TABLE_HEAD = [
   { id: "bonus", label: "Bonus", alignRight: false },
   { id: "referral_id", label: "Referral ID", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
+  { id: "reason", label: "Reason", alignRight: false },
   { id: "date_of_birth", label: "Date of Birth", alignRight: false },
   { id: "country", label: "Country", alignRight: false },
   { id: "city", label: "City", alignRight: false },
@@ -84,6 +85,7 @@ export default function Users() {
   const [openBalanceModel, setOpenBalanceModel] = useState(false);
   const [userId, setUserId] = useState("");
   const [reason, setReason] = useState("");
+  console.log(reason, "kdfjgklfjdklgjkfl");
   const [reasonModel, setReasonModel] = useState(false);
   const [type, setType] = useState("Add");
 
@@ -101,15 +103,11 @@ export default function Users() {
   };
 
   const UpdateStatus = async (val, id) => {
-    const data = {
-      status: val,
-      _method: "put",
-    };
     const formData = new FormData();
     formData.append("status", val);
     formData.append("_method", "put");
     formData.append("reason", reason);
-    const resp = await UpdateUserStatus(val == 1 ? id : userId, data);
+    const resp = await UpdateUserStatus(val == 1 ? id : userId, formData);
     if (resp?.status == true) {
       enqueueSnackbar(resp?.message, { variant: "success" });
       getAllUsers();
@@ -283,6 +281,7 @@ export default function Users() {
                         referred_by,
                         city,
                         status,
+                        reason,
                         rank_name,
                       } = row;
 
@@ -341,6 +340,7 @@ export default function Users() {
                               </Select>
                             </FormControl>
                           </TableCell>
+                          <TableCell align="left">{reason}</TableCell>
                           <TableCell align="left">{date_of_birth}</TableCell>
                           <TableCell align="left">
                             {country == null || country == "null"
@@ -368,7 +368,11 @@ export default function Users() {
                   {isUserNotFound && (
                     <TableBody>
                       <TableRow>
-                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                        <TableCell
+                          align="center"
+                          colSpan={TABLE_HEAD?.length}
+                          sx={{ py: 3 }}
+                        >
                           <SearchNotFound searchQuery={filterName} />
                         </TableCell>
                       </TableRow>

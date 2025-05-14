@@ -197,6 +197,7 @@ export const AddPromotion = () => {
                   variant="contained"
                   onClick={handleSubmit}
                   disabled={loading == true}
+                  sx={{ textTransform: "none" }}
                 >
                   Submit
                 </Button>

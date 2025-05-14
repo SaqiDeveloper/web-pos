@@ -27,6 +27,7 @@ export const UpdateProfile = () => {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const { state } = useLocation();
+  console.log(state, "fjdkgkfdjjgfk");
   const { id } = useParams();
   const [error, setError] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
@@ -69,8 +70,9 @@ export const UpdateProfile = () => {
     formData.append("phone", inputs?.phone_no);
 
     const resp = await UpdateUserProfile(formData);
+    console.log(resp, "djkfgfjdkljgkjdfkl");
     if (resp?.status == true) {
-      enqueueSnackbar(resp?.message, { variant: "success" });
+      enqueueSnackbar("Profile update successfully", { variant: "success" });
       navigate(-1);
     } else if (typeof resp?.message == "string") {
       setLoading(false);
@@ -88,6 +90,7 @@ export const UpdateProfile = () => {
       zip_code: state?.zip_code,
       address: state?.address,
       gender: state?.gender,
+      phone_no: state?.phone,
       date_of_birth: state?.date_of_birth,
     });
     setImagePreview(state?.profile_image);
@@ -171,7 +174,7 @@ export const UpdateProfile = () => {
                 size="small"
               />
               <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
-                {error?.zip_code && error?.zip_code[0]}
+                {error?.phone && error?.phone[0]}
               </FormHelperText>
             </Grid>
             <Grid item lg={6} md={6} sm={12} xs={12}>
@@ -185,8 +188,9 @@ export const UpdateProfile = () => {
                   label="Gender"
                   onChange={handleChange}
                 >
-                  <MenuItem value={"male"}>Male</MenuItem>
-                  <MenuItem value={"female"}>Female</MenuItem>
+                  <MenuItem value={"Male"}>Male</MenuItem>
+                  <MenuItem value={"Female"}>Female</MenuItem>
+                  <MenuItem value={"Other"}>Other</MenuItem>
                 </Select>
               </FormControl>
             </Grid>

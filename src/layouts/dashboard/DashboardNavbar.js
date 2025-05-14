@@ -16,6 +16,7 @@ const APPBAR_MOBILE = "8vh";
 const RootStyle = styled(AppBar)(({ theme }) => ({
   boxShadow: "none",
   backdropFilter: "blur(6px)",
+  zIndex: 0,
   WebkitBackdropFilter: "blur(6px)", // Fix on Mobile
   backgroundColor: alpha(theme.palette.background.default, 0.72),
   [theme.breakpoints.up("lg")]: {
@@ -39,18 +40,20 @@ DashboardNavbar.propTypes = {
 
 export default function DashboardNavbar({ onOpenSidebar }) {
   return (
-    <RootStyle id="mui-root-style">
-      <ToolbarStyle>
-        <Box sx={{ flexGrow: 1 }} />
-        <Stack
-          direction="row"
-          alignItems="center"
-          spacing={{ xs: 0.5, sm: 1.5 }}
-        >
-          {/* <NotificationsPopover /> */}
-          <AccountPopover />
-        </Stack>
-      </ToolbarStyle>
-    </RootStyle>
+    <>
+      <RootStyle id="mui-root-style">
+        <ToolbarStyle>
+          <Box sx={{ flexGrow: 1 }} />
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={{ xs: 0.5, sm: 1.5 }}
+          >
+            {/* <NotificationsPopover /> */}
+            <AccountPopover />
+          </Stack>
+        </ToolbarStyle>
+      </RootStyle>
+    </>
   );
 }

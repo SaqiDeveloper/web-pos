@@ -121,109 +121,131 @@ export const BannerList = () => {
                   Add Banner
                 </Button>
               </Box>
-              <Box sx={{ marginTop: "20px" }}>
-                <Grid container spacing={2}>
-                  {data?.map((val, index) => {
-                    return (
-                      <>
-                        <Grid item lg={3} md={4} sm={6} xs={12}>
-                          <Card
-                            sx={{ width: "100%" }}
-                            className="card"
-                            key={index}
-                          >
-                            <CardMedia
-                              component="img"
-                              image={val?.image}
-                              sx={{ height: 180 }}
-                              alt=""
-                            />
-
-                            <CardContent
-                              sx={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                              }}
+              {data?.length === 0 ? (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    height: "50vh",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography variant="h5" sx={{ fontWeight: 500 }}>
+                    Data Not Found
+                  </Typography>
+                </Box>
+              ) : (
+                <Box sx={{ marginTop: "20px" }}>
+                  <Grid container spacing={2}>
+                    {data?.map((val, index) => {
+                      return (
+                        <>
+                          <Grid item lg={3} md={4} sm={6} xs={12}>
+                            <Card
+                              sx={{ width: "100%" }}
+                              className="card"
+                              key={index}
                             >
-                              <Chip
-                                label={val?.is_internal == 1 ? "True" : "False"}
-                                color={
-                                  val?.is_internal == 0 ? "error" : "success"
-                                }
-                                sx={{
-                                  height: "20px",
-                                  cursor: "pointer",
-                                  color: "white",
-                                }}
-                                variant={"contained"}
+                              <CardMedia
+                                component="img"
+                                image={val?.image}
+                                sx={{ height: 180 }}
+                                alt=""
                               />
-                              <div style={{ display: "flex", gap: "5px" }}>
-                                <Chip
-                                  label={"In Active"}
-                                  color={"error"}
-                                  sx={{ height: "20px", cursor: "pointer" }}
-                                  variant={
-                                    val?.status == 0 ? "contained" : "outlined"
-                                  }
-                                  onClick={() => handleStatusInActive(val)}
-                                />
-                                <Chip
-                                  label={"Active"}
-                                  color={"success"}
-                                  sx={{ height: "20px", cursor: "pointer" }}
-                                  variant={
-                                    val?.status == 1 ? "contained" : "outlined"
-                                  }
-                                  onClick={() => handleStatusActive(val)}
-                                />
-                              </div>
-                            </CardContent>
-                            <CardActions
-                              sx={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              <Button
-                                size="small"
-                                variant="contained"
+
+                              <CardContent
                                 sx={{
-                                  textTransform: "none",
-                                  boxShadow: "none",
-                                  backgroundColor: "#42a5f5",
-                                  color: "white",
-                                  "&:hover": {
-                                    backgroundColor: "#42a5f5", // keep it red on hover too
-                                  },
+                                  display: "flex",
+                                  justifyContent: "space-between",
                                 }}
-                                onClick={() => handleEdit(val)}
                               >
-                                Edit
-                              </Button>
-                              <Button
-                                size="small"
-                                variant="contained"
+                                <Chip
+                                  label={
+                                    val?.is_internal == 1 ? "True" : "False"
+                                  }
+                                  color={
+                                    val?.is_internal == 0 ? "error" : "success"
+                                  }
+                                  sx={{
+                                    height: "20px",
+                                    cursor: "pointer",
+                                    color: "white",
+                                  }}
+                                  variant={"contained"}
+                                />
+                                <div style={{ display: "flex", gap: "5px" }}>
+                                  <Chip
+                                    label={"In Active"}
+                                    color={"error"}
+                                    sx={{ height: "20px", cursor: "pointer" }}
+                                    variant={
+                                      val?.status == 0
+                                        ? "contained"
+                                        : "outlined"
+                                    }
+                                    onClick={() => handleStatusInActive(val)}
+                                  />
+                                  <Chip
+                                    label={"Active"}
+                                    color={"success"}
+                                    sx={{ height: "20px", cursor: "pointer" }}
+                                    variant={
+                                      val?.status == 1
+                                        ? "contained"
+                                        : "outlined"
+                                    }
+                                    onClick={() => handleStatusActive(val)}
+                                  />
+                                </div>
+                              </CardContent>
+                              <CardActions
                                 sx={{
-                                  textTransform: "none",
-                                  backgroundColor: "#d32f2f",
-                                  boxShadow: "none",
-                                  color: "white",
-                                  "&:hover": {
-                                    backgroundColor: "#d32f2f", // keep it red on hover too
-                                  },
+                                  display: "flex",
+                                  justifyContent: "space-between",
                                 }}
-                                onClick={() => handleOpenModel(val?.id)}
                               >
-                                Delete
-                              </Button>
-                            </CardActions>
-                          </Card>
-                        </Grid>
-                      </>
-                    );
-                  })}
-                </Grid>
-              </Box>
+                                <Button
+                                  size="small"
+                                  variant="contained"
+                                  sx={{
+                                    textTransform: "none",
+                                    boxShadow: "none",
+                                    backgroundColor: "#42a5f5",
+                                    color: "white",
+                                    "&:hover": {
+                                      backgroundColor: "#42a5f5", // keep it red on hover too
+                                    },
+                                  }}
+                                  onClick={() => handleEdit(val)}
+                                >
+                                  Edit
+                                </Button>
+                                <Button
+                                  size="small"
+                                  variant="contained"
+                                  sx={{
+                                    textTransform: "none",
+                                    backgroundColor: "#d32f2f",
+                                    boxShadow: "none",
+                                    color: "white",
+                                    "&:hover": {
+                                      backgroundColor: "#d32f2f", // keep it red on hover too
+                                    },
+                                  }}
+                                  onClick={() => handleOpenModel(val?.id)}
+                                >
+                                  Delete
+                                </Button>
+                              </CardActions>
+                            </Card>
+                          </Grid>
+                        </>
+                      );
+                    })}
+                  </Grid>
+                </Box>
+              )}
             </Container>
           </Page>
         </>

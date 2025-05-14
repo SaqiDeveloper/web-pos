@@ -162,8 +162,7 @@ export const AddBanner = () => {
                           className="pt-0"
                           style={{ color: "grey", cursor: "pointer" }}
                         >
-                          Image Size(200 X 100) (Supported Format: JPG, JPEG,
-                          PNG, WEBP)
+                          Supported Format: JPG, JPEG, PNG, WEBP
                         </FormHelperText>
                       </label>
                     </div>

@@ -5,6 +5,9 @@ import { styled } from "@mui/material/styles";
 //
 import DashboardNavbar from "./DashboardNavbar";
 import DashboardSidebar from "./DashboardSidebar";
+import { useResponsive } from "src/hooks";
+import MenuIcon from "@mui/icons-material/Menu";
+import IconButton from "@mui/material/IconButton";
 
 // ----------------------------------------------------------------------
 
@@ -16,6 +19,7 @@ const RootStyle = styled("div")({
   minHeight: "100vh",
   overflow: "hidden",
   paddingBottom: "0.1rem",
+
   // backgroundColor: 'grey',
   position: "relative",
 });
@@ -39,6 +43,7 @@ const MainStyle = styled("div")(({ theme }) => ({
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const isDesktop = useResponsive("up", "lg");
   // ------------------------------------
   const handleNavigate = () => {
     if (localStorage.getItem("token")) {
@@ -55,15 +60,28 @@ export default function DashboardLayout() {
     return <Navigate to="/login" replace={true} />;
   }
   return (
-    <RootStyle id="mui-root-style">
-      <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
-      <DashboardSidebar
-        isOpenSidebar={open}
-        onCloseSidebar={() => setOpen(false)}
-      />
-      <MainStyle id="mui-main-style">
-        <Outlet />
-      </MainStyle>
-    </RootStyle>
+    <>
+      {!isDesktop && (
+        <IconButton
+          id="mui-root-style"
+          onClick={() => setOpen(true)}
+          color="inherit"
+          sx={{ zIndex: 1 }}
+        >
+          <MenuIcon />
+        </IconButton>
+      )}
+      <RootStyle id="mui-root-style">
+        <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
+        <DashboardSidebar
+          isOpenSidebar={open}
+          onCloseSidebar={() => setOpen(false)}
+        />
+
+        <MainStyle id="mui-main-style">
+          <Outlet />
+        </MainStyle>
+      </RootStyle>
+    </>
   );
 }

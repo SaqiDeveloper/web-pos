@@ -248,7 +248,11 @@ export const AddRank = () => {
               xs={12}
               sx={{ textAlign: "end" }}
             >
-              <Button variant="contained" onClick={handleSubmit}>
+              <Button
+                variant="contained"
+                sx={{ textTransform: "none" }}
+                onClick={handleSubmit}
+              >
                 Submit
               </Button>
             </Grid>
