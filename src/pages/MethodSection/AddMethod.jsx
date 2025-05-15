@@ -78,7 +78,7 @@ export const AddMethod = () => {
 
   return (
     <>
-      <Page title="Add Method">
+      <Page title="Add Payment Method">
         <Container maxWidth="xl">
           <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <Iconify
@@ -87,7 +87,7 @@ export const AddMethod = () => {
               onClick={() => navigate(-1)}
             />
             <Typography variant="h5" fontWeight={600}>
-              {"Add Method"}
+              {"Add Payment Method"}
             </Typography>
           </Box>
           <Grid container spacing={2} sx={{ marginTop: "10px" }}>

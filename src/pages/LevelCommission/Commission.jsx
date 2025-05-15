@@ -72,10 +72,12 @@ export default function CommissionLevel() {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState("");
 
-  const GetPromotionListing = async () => {
-    const resp = await AllLevelsCommission();
+  const GetLevelsCommission = async () => {
+    const resp = await AllLevelsCommission(page, rowsPerPage);
     if (resp.status == true) {
       setRankList(resp?.data?.data);
+      setCurrentPage(resp?.data?.current_page);
+      setTotal(resp?.data?.total);
       setLoading(false);
     } else {
       setLoading(false);
@@ -107,7 +109,7 @@ export default function CommissionLevel() {
   const isUserNotFound = rankList?.length === 0;
 
   useEffect(() => {
-    GetPromotionListing();
+    GetLevelsCommission();
   }, [page, rowsPerPage, open]);
   return (
     <Page title="Commission">

@@ -22,7 +22,7 @@ export const EditBanner = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { enqueueSnackbar } = useSnackbar();
-  const [formType, setFormType] = useState("add");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [inputs, setInputs] = useState({
     url: "",
@@ -63,9 +63,12 @@ export const EditBanner = () => {
     if (resp?.status == true) {
       enqueueSnackbar(resp?.message, { variant: "success" });
       navigate(-1);
-    } else {
+    } else if (typeof resp?.message == "string") {
       setLoading(false);
       enqueueSnackbar(resp?.message, { variant: "error" });
+    } else {
+      setLoading(false);
+      setError(resp?.message);
     }
   };
 
@@ -99,6 +102,11 @@ export const EditBanner = () => {
                   size="small"
                   onChange={handleChange}
                 />
+                {error?.url && (
+                  <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
+                    {error?.url[0]}
+                  </FormHelperText>
+                )}
               </Grid>
               <Grid item lg={6} md={6} sm={12} xs={12}>
                 <FormControl fullWidth size="small">
@@ -117,80 +125,94 @@ export const EditBanner = () => {
                     <MenuItem value={0}>False</MenuItem>
                   </Select>
                 </FormControl>
+                {error?.is_internal && (
+                  <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
+                    {error?.is_internal[0]}
+                  </FormHelperText>
+                )}
               </Grid>
-              <div
-                style={{
-                  width: "60%",
-                  height: "250px",
-                  border: "1px dotted",
-                  marginTop: "25px",
-                  borderRadius: "5px",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  position: "relative",
-                }}
-                className="g-0"
-              >
-                {(ImageUrl == null ||
-                  ImageUrl == undefined ||
-                  ImageUrl == "") && (
-                  <div className="d-flex justify-content-center align-items-center text-center h-100 w-100">
-                    <label htmlFor="contained-button-file">
-                      <Input
-                        accept="image/*"
-                        id="contained-button-file"
-                        type="file"
-                        multiple
-                        name="image"
-                        className="d-none"
-                        onChange={handleImageUpload}
-                      />
+              <Grid item lg={3}></Grid>
+              <Grid item lg={6} md={12} sm={12} xs={12}>
+                <div
+                  style={{
+                    width: "100%",
+                    height: "250px",
+                    border: "1px dotted",
+                    marginTop: "25px",
+                    borderRadius: "5px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    position: "relative",
+                  }}
+                  className="g-0"
+                >
+                  {(ImageUrl == null ||
+                    ImageUrl == undefined ||
+                    ImageUrl == "") && (
+                    <div className="d-flex justify-content-center align-items-center text-center h-100 w-100">
+                      <label htmlFor="contained-button-file">
+                        <Input
+                          accept="image/*"
+                          id="contained-button-file"
+                          type="file"
+                          multiple
+                          name="image"
+                          className="d-none"
+                          onChange={handleImageUpload}
+                        />
 
-                      <Iconify
-                        icon="zondicons:upload"
+                        <Iconify
+                          icon="zondicons:upload"
+                          style={{
+                            cursor: "pointer",
+                            color: "#d49b42",
+                            fontSize: "35px",
+                          }}
+                        />
+                        <FormHelperText
+                          className="pt-0"
+                          style={{ color: "grey", cursor: "pointer" }}
+                        >
+                          Supported Format: JPG, JPEG, PNG, WEBP
+                        </FormHelperText>
+                      </label>
+                    </div>
+                  )}
+
+                  {ImageUrl && (
+                    <>
+                      <p style={{ position: "absolute", right: 0 }}>
+                        <Iconify
+                          icon="maki:cross"
+                          width={20}
+                          style={{
+                            cursor: "pointer",
+                            color: "black",
+                            backgroundColor: "white",
+                            marginTop: "6px",
+                          }}
+                          onClick={() => setImageUrl("")}
+                        />
+                      </p>
+
+                      <img
+                        src={ImageUrl}
                         style={{
-                          cursor: "pointer",
-                          color: "#d49b42",
-                          fontSize: "35px",
+                          width: "100%",
+                          height: "100%",
+                          border: "none",
                         }}
                       />
-                      <FormHelperText
-                        className="pt-0"
-                        style={{ color: "grey", cursor: "pointer" }}
-                      >
-                        Supported Format: JPG, JPEG, PNG, WEBP
-                      </FormHelperText>
-                    </label>
-                  </div>
+                    </>
+                  )}
+                </div>
+                {error?.image && (
+                  <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
+                    {error?.image[0]}
+                  </FormHelperText>
                 )}
-
-                {ImageUrl && (
-                  <>
-                    <p style={{ position: "absolute", right: 0 }}>
-                      <Iconify
-                        icon="maki:cross"
-                        width={20}
-                        style={{
-                          cursor: "pointer",
-                          color: "black",
-                          backgroundColor: "white",
-                          marginTop: "6px",
-                        }}
-                        onClick={() => setImageUrl("")}
-                      />
-                    </p>
-
-                    <img
-                      src={ImageUrl}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        border: "none",
-                      }}
-                    />
-                  </>
-                )}
-              </div>
+              </Grid>
+              <Grid item lg={3}></Grid>
               <Grid
                 item
                 lg={12}

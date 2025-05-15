@@ -47,6 +47,12 @@ import ReasonModel from "src/components/ReasonModel";
 
 const TABLE_HEAD = [
   {
+    id: "index",
+    label: "Sr. No.",
+    alignRight: false,
+    ClassName: "text-center",
+  },
+  {
     id: "username",
     label: "User Name",
     alignRight: false,
@@ -67,6 +73,7 @@ const TABLE_HEAD = [
   { id: "address", label: "Address", alignRight: false },
   { id: "phone", label: "Phone", alignRight: false },
   { id: "created_at", label: "Created At" },
+  { id: "" },
 ];
 
 export default function Users() {
@@ -127,6 +134,9 @@ export default function Users() {
   };
 
   const handleInActiveStatus = () => {
+    if (!reason) {
+      return enqueueSnackbar("Reason field is required", { variant: "error" });
+    }
     setReasonModel(false);
     UpdateStatus(0);
   };
@@ -264,7 +274,7 @@ export default function Users() {
                 <Table>
                   <UserListHead headLabel={TABLE_HEAD} />
                   <TableBody>
-                    {USERLIST?.map((row) => {
+                    {USERLIST?.map((row, index) => {
                       const {
                         id,
                         username,
@@ -289,6 +299,7 @@ export default function Users() {
                         <TableRow hover key={id} sx={{ whiteSpace: "nowrap" }}>
                           <TableCell padding="checkbox"></TableCell>
 
+                          <TableCell align="left">{index + 1}</TableCell>
                           <TableCell align="left">{username}</TableCell>
                           <TableCell align="left">
                             <Avatar

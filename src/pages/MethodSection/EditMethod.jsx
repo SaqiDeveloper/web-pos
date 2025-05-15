@@ -97,7 +97,7 @@ export const EditMethod = () => {
 
   return (
     <>
-      <Page title="Edit Method">
+      <Page title="Edit Payment Method">
         <Container maxWidth="xl">
           <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <Iconify
@@ -106,7 +106,7 @@ export const EditMethod = () => {
               onClick={() => navigate(-1)}
             />
             <Typography variant="h5" fontWeight={600}>
-              {"Edit Method"}
+              {"Edit Payment Method"}
             </Typography>
           </Box>
           <Grid container spacing={2} sx={{ marginTop: "10px" }}>

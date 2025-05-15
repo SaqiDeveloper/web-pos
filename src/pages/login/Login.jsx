@@ -6,6 +6,7 @@ import { Card, Link, Container, Typography } from "@mui/material";
 import useResponsive from "../../hooks/useResponsive";
 // components
 import Logo from "../../components/Logo";
+import profitLogo from "../../assets/media/profitLogo.svg";
 // components
 import { AuthSocial, Page } from "src/components";
 import LoginForm from "./components/LoginForm";
@@ -41,6 +42,9 @@ const SectionStyle = styled(Card)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
+  textAlign: "center",
+  alignItems: "center",
+  gap: "30px",
   margin: theme.spacing(2, 0, 2, 2),
 }));
 
@@ -50,6 +54,7 @@ const ContentStyle = styled("div")(({ theme }) => ({
   minHeight: "100vh",
   display: "flex",
   justifyContent: "center",
+
   flexDirection: "column",
   padding: theme.spacing(12, 0),
 }));
@@ -64,25 +69,16 @@ export default function Login() {
   return (
     <Page title="Login">
       <RootStyle>
-        <HeaderStyle>
-          <Logo />
-
-          {/* {smUp && (
-            <Typography variant='body2' sx={{ mt: { md: -2 } }}>
-              Don’t have an account? {''}
-              <Link variant='subtitle2' component={RouterLink} to='/register'>
-                Get started
-              </Link>
-            </Typography>
-          )} */}
-        </HeaderStyle>
-
         {mdUp && (
           <SectionStyle>
-            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
+            <Typography variant="h4" sx={{ px: 5, fontWeight: 500 }}>
+              Profit Miner Admin Panel
             </Typography>
-            <img src={LoginImg} alt="login" />
+            <img
+              src={profitLogo}
+              alt="login"
+              style={{ width: "200px", height: "200px" }}
+            />
           </SectionStyle>
         )}
 

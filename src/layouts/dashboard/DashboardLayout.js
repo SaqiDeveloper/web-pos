@@ -66,7 +66,7 @@ export default function DashboardLayout() {
           id="mui-root-style"
           onClick={() => setOpen(true)}
           color="inherit"
-          sx={{ zIndex: 1 }}
+          sx={{ zIndex: 1, marginTop: ".5rem" }}
         >
           <MenuIcon />
         </IconButton>

@@ -153,11 +153,6 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           }}
         >
           {renderContent}
-          <LogoutContainer>
-            <Button onClick={handleLogout} variant="contained" fullWidth>
-              Logout
-            </Button>
-          </LogoutContainer>
         </Drawer>
       )}
 

@@ -74,16 +74,16 @@ export default function Dashboard() {
                 <SummaryCard
                   title={"Total Withdraw"}
                   count={data?.total_withdraw}
-                  icon={"fluent-mdl2:product-variant"}
+                  icon={"ph:hand-deposit-fill"}
                   sx={{ cursor: "pointer" }}
                   onClick={() => navigate("/approve")}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <SummaryCard
-                  title={"Total Deposit"}
+                  title={"Total Deposits"}
                   count={data?.total_deposit}
-                  icon={"dashicons:admin-users"}
+                  icon={"hugeicons:reverse-withdrawal-01"}
                   sx={{ cursor: "pointer" }}
                   onClick={() => navigate("/approved-list")}
                 />

@@ -44,6 +44,12 @@ import ImageModel from "src/components/ShowImageModel";
 
 const TABLE_HEAD = [
   {
+    id: "index",
+    label: "Sr. No.",
+    alignRight: false,
+    ClassName: "text-center",
+  },
+  {
     id: "user",
     label: "User Name",
     alignRight: false,
@@ -61,7 +67,7 @@ const TABLE_HEAD = [
     alignRight: false,
     ClassName: "text-center",
   },
-  { id: "proof", label: "Proof", alignRight: false },
+  { id: "proof", label: "QR Code", alignRight: false },
   { id: "charge", label: "Charge", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
   { id: "comment", label: "Comment", alignRight: false },
@@ -149,28 +155,26 @@ export default function RejectedWithdraw() {
           <Card
             sx={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", mb: 1 }}
           >
-            {withdrawList?.length > 0 && (
-              <UserListToolbar
-                filterName={filterName}
-                onFilterName={handleFilterByName}
-                onSubmit={handleSearch}
-              />
-            )}
+            <UserListToolbar
+              filterName={filterName}
+              onFilterName={handleFilterByName}
+              onSubmit={handleSearch}
+            />
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
                 <Table>
                   <UserListHead headLabel={TABLE_HEAD} />
                   <TableBody>
-                    {withdrawList?.map((row) => {
+                    {withdrawList?.map((row, index) => {
                       const {
                         id,
                         amount,
-                        proof,
-                        charge,
+                        qr_code,
+                        charges,
                         created_at,
                         payable_amount,
-                        comment,
+                        reason,
                         user,
                         status,
                       } = row;
@@ -178,7 +182,7 @@ export default function RejectedWithdraw() {
                       return (
                         <TableRow hover key={id} sx={{ whiteSpace: "nowrap" }}>
                           <TableCell padding="checkbox"></TableCell>
-
+                          <TableCell align="left">{index + 1}</TableCell>
                           <TableCell align="left">{user?.username}</TableCell>
                           <TableCell align="left">
                             <Avatar
@@ -197,14 +201,14 @@ export default function RejectedWithdraw() {
                           <TableCell align="left">{amount}</TableCell>
                           <TableCell align="left">
                             <Avatar
-                              src={proof}
+                              src={qr_code}
                               alt={""}
                               sx={{ height: "3rem", width: "3rem" }}
-                              onClick={() => handleShowImage(proof)}
+                              onClick={() => handleShowImage(qr_code)}
                             />
                           </TableCell>
 
-                          <TableCell align="left">{charge}</TableCell>
+                          <TableCell align="left">{charges}</TableCell>
                           <TableCell align="left">
                             <Chip
                               label={status == 2 && "Rejected"}
@@ -213,7 +217,7 @@ export default function RejectedWithdraw() {
                             />
                           </TableCell>
 
-                          <TableCell align="left">{comment}</TableCell>
+                          <TableCell align="left">{reason}</TableCell>
                           <TableCell align="left">
                             {moment(created_at).format("YYYY-MM-DD")}
                           </TableCell>

@@ -12,39 +12,18 @@ const navConfig = [
     icon: getIcon("eva:pie-chart-2-fill"),
   },
   {
-    title: "users",
+    title: "Users",
     path: "/users",
-    icon: getIcon("fe:users"),
-  },
-
-  {
-    title: "Banner List",
-    path: "/banner-list",
-    icon: getIcon("ph:flag-banner-fill"),
+    icon: getIcon("fa6-solid:users"),
   },
   {
-    title: "Ranks",
-    path: "/all-ranks",
-    icon: getIcon("icon-park-outline:ranking"),
-  },
-  {
-    title: "Promotions",
-    path: "/promotion-listing",
-    icon: getIcon("hugeicons:promotion"),
-  },
-  {
-    title: "Methods",
+    title: "Payment Methods",
     path: "/all-methods",
     icon: getIcon("material-symbols:payments"),
   },
   {
-    title: "Levels Commission",
-    path: "/commission-level",
-    icon: getIcon("healthicons:low-income-level-outline-24px"),
-  },
-  {
-    title: "Deposit",
-    icon: getIcon("ph:hand-deposit-fill"),
+    title: "Deposits",
+    icon: getIcon("hugeicons:reverse-withdrawal-01"),
     children: [
       {
         title: "Pending Deposit List",
@@ -64,8 +43,8 @@ const navConfig = [
     ],
   },
   {
-    title: "Withdraw List",
-    icon: getIcon("ph:hand-withdraw-fill"),
+    title: "Withdrawals",
+    icon: getIcon("ph:hand-deposit-fill"),
     children: [
       {
         title: "Pending Withdraw List",
@@ -83,6 +62,27 @@ const navConfig = [
         icon: getIcon("mdi:cross-circle"),
       },
     ],
+  },
+  {
+    title: "Ranks",
+    path: "/all-ranks",
+    icon: getIcon("icon-park-outline:ranking"),
+  },
+  {
+    title: "Levels Commission",
+    path: "/commission-level",
+    icon: getIcon("healthicons:low-income-level-outline-24px"),
+  },
+  {
+    title: "Banners",
+    path: "/banner-list",
+    icon: getIcon("ph:flag-banner-fill"),
+  },
+
+  {
+    title: "Promotions",
+    path: "/promotion-listing",
+    icon: getIcon("hugeicons:promotion"),
   },
 
   // example: collapsible sidebar routes

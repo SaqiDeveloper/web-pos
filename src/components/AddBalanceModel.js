@@ -64,7 +64,9 @@ export default function AddBalanceModel({
   };
 
   React.useEffect(() => {
-    setBalance(userId?.balance);
+    if (type == "Remove") {
+      setBalance(userId?.balance);
+    }
   }, [userId]);
   return (
     <div>

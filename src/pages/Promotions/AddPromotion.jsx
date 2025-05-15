@@ -63,6 +63,11 @@ export const AddPromotion = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (inputs?.title?.length > 41) {
+      return enqueueSnackbar("Title should not be greater then 41 characters", {
+        variant: "error",
+      });
+    }
     const formData = new FormData();
     setLoading(true);
     if (formType == "edit" && inputs?.image) {
@@ -141,6 +146,7 @@ export const AddPromotion = () => {
                   fullWidth
                   size="small"
                 />
+
                 <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
                   {error?.body && error?.body[0]}
                 </FormHelperText>

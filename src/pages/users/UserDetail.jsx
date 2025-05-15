@@ -83,9 +83,7 @@ export const UserDetail = () => {
                 </Typography>
 
                 <Typography>
-                  <span style={{ fontWeight: 600 }}>
-                    Total Commission Level 1:
-                  </span>{" "}
+                  <span style={{ fontWeight: 600 }}>Total Commission:</span>{" "}
                   {data?.level_1?.total_commission_level_1}
                 </Typography>
                 <hr />
@@ -144,9 +142,7 @@ export const UserDetail = () => {
                 </Typography>
 
                 <Typography>
-                  <span style={{ fontWeight: 600 }}>
-                    Total Commission Level 2:
-                  </span>{" "}
+                  <span style={{ fontWeight: 600 }}>Total Commission:</span>{" "}
                   {data?.level_2?.total_commission_level_2}
                 </Typography>
                 <hr />
@@ -205,9 +201,7 @@ export const UserDetail = () => {
                 </Typography>
 
                 <Typography>
-                  <span style={{ fontWeight: 600 }}>
-                    Total Commission Level 3:
-                  </span>{" "}
+                  <span style={{ fontWeight: 600 }}>Total Commission:</span>{" "}
                   {data?.level_3?.total_commission_level_3}
                 </Typography>
                 <hr />
@@ -266,9 +260,7 @@ export const UserDetail = () => {
                 </Typography>
 
                 <Typography>
-                  <span style={{ fontWeight: 600 }}>
-                    Total Commission Level 4:
-                  </span>{" "}
+                  <span style={{ fontWeight: 600 }}>Total Commission:</span>{" "}
                   {data?.level_4?.total_commission_level_4}
                 </Typography>
                 <hr />
@@ -327,9 +319,7 @@ export const UserDetail = () => {
                 </Typography>
 
                 <Typography>
-                  <span style={{ fontWeight: 600 }}>
-                    Total Commission Level 5:
-                  </span>{" "}
+                  <span style={{ fontWeight: 600 }}>Total Commission:</span>{" "}
                   {data?.level_5?.total_commission_level_5}
                 </Typography>
                 <hr />

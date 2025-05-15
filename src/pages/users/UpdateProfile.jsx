@@ -38,6 +38,7 @@ export const UpdateProfile = () => {
     image: "",
     zip_code: "",
     address: "",
+    phone_no: "",
     gender: "male",
     date_of_birth: null,
   });
@@ -94,7 +95,7 @@ export const UpdateProfile = () => {
       date_of_birth: state?.date_of_birth,
     });
     setImagePreview(state?.profile_image);
-  }, []);
+  }, [state]);
   return (
     <>
       <Page title="Update Profile">
@@ -167,7 +168,7 @@ export const UpdateProfile = () => {
               <TextField
                 label="Phone No *"
                 name="phone_no"
-                type="number"
+                type="text"
                 value={inputs?.phone_no}
                 onChange={handleChange}
                 fullWidth

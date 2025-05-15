@@ -61,7 +61,7 @@ const TABLE_HEAD = [
   { id: "image", label: "Image", alignRight: false },
   { id: "currency", label: "Currency", alignRight: false },
   { id: "qrcode", label: "QR Code", alignRight: false },
-  { id: "rate", label: "Rate", alignRight: false },
+  { id: "account_address", label: "Account Address", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
 
   { id: "created_at", label: "Created At" },
@@ -180,14 +180,14 @@ export default function MethodListingSection() {
           mb={4.5}
         >
           <Typography variant="h5" fontWeight={600}>
-            Methods
+            Payment Methods
           </Typography>
           <Button
             variant="contained"
             sx={{ textTransform: "none" }}
             onClick={handleNavigateAdd}
           >
-            Add Method
+            Add Payment Method
           </Button>
         </Stack>
 
@@ -213,10 +213,10 @@ export default function MethodListingSection() {
                         id,
                         method_name,
                         qr_code,
-                        rate,
                         status,
                         currency_name,
                         image,
+                        account_address,
                         created_at,
                       } = row;
 
@@ -245,7 +245,7 @@ export default function MethodListingSection() {
                               onClick={() => handleShowImage(qr_code)}
                             />
                           </TableCell>
-                          <TableCell align="left">{rate}</TableCell>
+                          <TableCell align="left">{account_address}</TableCell>
                           <TableCell align="left">
                             {" "}
                             <FormControl fullWidth size="small">
@@ -261,8 +261,8 @@ export default function MethodListingSection() {
                                   handleStatusChange(e, id, status)
                                 }
                               >
-                                <MenuItem value={0}>Rejected</MenuItem>
-                                <MenuItem value={1}>Approved</MenuItem>
+                                <MenuItem value={0}>Inactive</MenuItem>
+                                <MenuItem value={1}>Active</MenuItem>
                               </Select>
                             </FormControl>
                           </TableCell>

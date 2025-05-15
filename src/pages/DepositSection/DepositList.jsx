@@ -44,6 +44,12 @@ import ImageModel from "src/components/ShowImageModel";
 
 const TABLE_HEAD = [
   {
+    id: "index",
+    label: "Sr. No.",
+    alignRight: false,
+    ClassName: "text-center",
+  },
+  {
     id: "user",
     label: "User Name",
     alignRight: false,
@@ -201,20 +207,18 @@ export default function Deposits() {
           <Card
             sx={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", mb: 1 }}
           >
-            {depositList?.length > 0 && (
-              <UserListToolbar
-                filterName={filterName}
-                onFilterName={handleFilterByName}
-                onSubmit={handleSearch}
-              />
-            )}
+            <UserListToolbar
+              filterName={filterName}
+              onFilterName={handleFilterByName}
+              onSubmit={handleSearch}
+            />
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
                 <Table>
                   <UserListHead headLabel={TABLE_HEAD} />
                   <TableBody>
-                    {depositList?.map((row) => {
+                    {depositList?.map((row, index) => {
                       const {
                         id,
                         user,
@@ -229,7 +233,7 @@ export default function Deposits() {
                       return (
                         <TableRow hover key={id} sx={{ whiteSpace: "nowrap" }}>
                           <TableCell padding="checkbox"></TableCell>
-
+                          <TableCell align="left">{index + 1}</TableCell>
                           <TableCell align="left">{user?.username}</TableCell>
                           <TableCell align="left">
                             <Avatar

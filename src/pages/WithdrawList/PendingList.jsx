@@ -45,6 +45,12 @@ import ImageModel from "src/components/ShowImageModel";
 
 const TABLE_HEAD = [
   {
+    id: "index",
+    label: "Sr. No.",
+    alignRight: false,
+    ClassName: "text-center",
+  },
+  {
     id: "username",
     label: "User Name",
     alignRight: false,
@@ -56,7 +62,7 @@ const TABLE_HEAD = [
     alignRight: false,
     ClassName: "text-center",
   },
-  { id: "proof", label: "Proof", alignRight: false },
+  { id: "proof", label: "QR Code", alignRight: false },
   { id: "amount", label: "Amount", alignRight: false },
   { id: "charge", label: "Charges", alignRight: false },
   { id: "method", label: "Method Name", alignRight: false },
@@ -107,6 +113,9 @@ export default function PendingWithdraw() {
   };
 
   const handleUpdateStatus = async () => {
+    if (status == 1 && !proof) {
+      return enqueueSnackbar("Image is required", { variant: "error" });
+    }
     setOpen(false);
     const formData = new FormData();
     formData.append("id", withdrawId);
@@ -188,25 +197,23 @@ export default function PendingWithdraw() {
           <Card
             sx={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", mb: 1 }}
           >
-            {withdrawList?.length > 0 && (
-              <UserListToolbar
-                filterName={filterName}
-                onFilterName={handleFilterByName}
-                onSubmit={handleSearch}
-              />
-            )}
+            <UserListToolbar
+              filterName={filterName}
+              onFilterName={handleFilterByName}
+              onSubmit={handleSearch}
+            />
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
                 <Table>
                   <UserListHead headLabel={TABLE_HEAD} />
                   <TableBody>
-                    {withdrawList?.map((row) => {
+                    {withdrawList?.map((row, index) => {
                       const {
                         id,
                         user,
                         amount,
-                        proof,
+                        qr_code,
                         charges,
                         account_address,
                         method,
@@ -218,6 +225,7 @@ export default function PendingWithdraw() {
                         <TableRow hover key={id} sx={{ whiteSpace: "nowrap" }}>
                           <TableCell padding="checkbox"></TableCell>
 
+                          <TableCell align="left">{index + 1}</TableCell>
                           <TableCell align="left">{user?.username}</TableCell>
                           <TableCell align="left">
                             <Avatar
@@ -231,14 +239,14 @@ export default function PendingWithdraw() {
                           </TableCell>
                           <TableCell align="left">
                             <Avatar
-                              src={proof}
+                              src={qr_code}
                               alt={""}
                               sx={{
                                 height: "3rem",
                                 width: "3rem",
                                 cursor: "pointer",
                               }}
-                              onClick={() => handleShowImage(proof)}
+                              onClick={() => handleShowImage(qr_code)}
                             />
                           </TableCell>
 

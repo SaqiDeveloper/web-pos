@@ -82,7 +82,7 @@ export const AddBanner = () => {
           </Box>
           <Box sx={{ marginTop: "15px" }}>
             <Grid container spacing={2}>
-              <Grid item lg={6} md={6} sm={6} xs={6}>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
                 <TextField
                   label="Url *"
                   type="text"
@@ -121,10 +121,11 @@ export const AddBanner = () => {
                   </FormHelperText>
                 )}
               </Grid>
-              <Grid item lg={12} md={12} sm={12} xs={12}>
+              <Grid item lg={3}></Grid>
+              <Grid item lg={6} md={12} sm={12} xs={12}>
                 <div
                   style={{
-                    width: "60%",
+                    width: "100%",
                     height: "250px",
                     border: "1px dotted",
                     marginTop: "25px",
@@ -203,7 +204,7 @@ export const AddBanner = () => {
                   )}
                 </Box>
               </Grid>
-
+              <Grid item lg={3}></Grid>
               <Grid
                 item
                 lg={12}
