@@ -74,7 +74,6 @@ export const UpdateProfile = () => {
     formData.append("phone", inputs?.phone_no);
 
     const resp = await UpdateUserProfile(formData);
-    console.log(resp, "djkfgfjdkljgkjdfkl");
     if (resp?.status == true) {
       enqueueSnackbar("Profile update successfully", { variant: "success" });
       navigate(-1);
@@ -116,33 +115,6 @@ export const UpdateProfile = () => {
             </Typography>
           </Box>
           <Grid container spacing={2} sx={{ marginTop: "10px" }}>
-
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-              <TextField
-                label="UserName "
-                name="username"
-                value={inputs?.username}
-                onChange={handleChange}
-                fullWidth
-                size="small"
-              />
-              <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
-                {error?.username && error?.username[0]}
-              </FormHelperText>
-            </Grid>
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-              <TextField
-                label="Email "
-                name="email"
-                value={inputs?.email}
-                onChange={handleChange}
-                fullWidth
-                size="small"
-              />
-              <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
-                {error?.email && error?.email[0]}
-              </FormHelperText>
-            </Grid>
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <TextField
                 label="Username "
