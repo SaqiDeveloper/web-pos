@@ -38,17 +38,17 @@ export async function invokeApi({
     results = await axios(reqObj);
     console.log("<===Api-Success-Result===>", results);
 
-    return results.data;
+    return results?.data;
   } catch (error) {
-    console.log("<===Api-Error===>", error.response.data);
+    console.log("<===Api-Error===>", error?.response?.data);
 
-    if (error.response.status === 401) {
+    if (error?.response?.status === 401) {
       localStorage.clear();
       window.location.reload();
     }
     return {
-      code: error.response.status,
-      message: error.response.data.message ? error.response.data.message : "",
+      code: error?.response?.status,
+      message: error?.response?.data?.message ? error?.response?.data?.message : "",
     };
   }
 }

@@ -34,6 +34,7 @@ export default function LoginForm() {
     setFormInputs({ ...formInputs, [target.name]: target.value });
   };
   const handleSubmit = async (e) => {
+    console.log(handleSubmit,'klsaljkjd')
     e.preventDefault();
     setIsLoading(true);
     const formData = new FormData();

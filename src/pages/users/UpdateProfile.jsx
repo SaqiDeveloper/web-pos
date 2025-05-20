@@ -61,6 +61,8 @@ export const UpdateProfile = () => {
     if (inputs?.image) {
       formData.append("profile_image", inputs?.image);
     }
+    formData.append("username", inputs?.username);
+    formData.append("email", inputs?.email);
     formData.append("country", inputs?.country);
     formData.append("city", inputs?.city);
     formData.append("id", id);
@@ -86,6 +88,8 @@ export const UpdateProfile = () => {
 
   useEffect(() => {
     setInputs({
+      username: state?.username,
+      email: state?.email,
       country: state?.country,
       city: state?.city,
       zip_code: state?.zip_code,
@@ -111,6 +115,33 @@ export const UpdateProfile = () => {
             </Typography>
           </Box>
           <Grid container spacing={2} sx={{ marginTop: "10px" }}>
+
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <TextField
+                label="UserName "
+                name="username"
+                value={inputs?.username}
+                onChange={handleChange}
+                fullWidth
+                size="small"
+              />
+              <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
+                {error?.username && error?.username[0]}
+              </FormHelperText>
+            </Grid>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <TextField
+                label="Email "
+                name="email"
+                value={inputs?.email}
+                onChange={handleChange}
+                fullWidth
+                size="small"
+              />
+              <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
+                {error?.email && error?.email[0]}
+              </FormHelperText>
+            </Grid>
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <TextField
                 label="Country "
@@ -137,7 +168,6 @@ export const UpdateProfile = () => {
                 {error?.currency_name && error?.currency_name[0]}
               </FormHelperText>
             </Grid>
-
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <TextField
                 label="Address "
