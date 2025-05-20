@@ -62,12 +62,6 @@ export default function AddBalanceModel({
       setError(resp?.message);
     }
   };
-
-  React.useEffect(() => {
-    if (type == "Remove") {
-      setBalance(userId?.balance);
-    }
-  }, [userId]);
   return (
     <div>
       <Modal
@@ -82,7 +76,6 @@ export default function AddBalanceModel({
           <TextField
             label="Balance *"
             fullWidth
-            value={balance}
             onChange={handleChange}
             sx={{ marginTop: "15px" }}
             size="small"

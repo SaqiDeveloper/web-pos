@@ -52,6 +52,7 @@ const TABLE_HEAD = [
     alignRight: false,
     ClassName: "text-center",
   },
+
   {
     id: "username",
     label: "User Name",
@@ -73,7 +74,7 @@ const TABLE_HEAD = [
   { id: "address", label: "Address", alignRight: false },
   { id: "phone", label: "Phone", alignRight: false },
   { id: "created_at", label: "Created At" },
-  { id: "" },
+  { id: "", alignRight: false },
 ];
 
 export default function Users() {

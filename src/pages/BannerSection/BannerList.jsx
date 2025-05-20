@@ -21,7 +21,6 @@ import {
   GetBannerList,
   UpdateBannerStatus,
 } from "src/DAL/Banner/Banner";
-import illustration_login from "../../assets/media/illustration_login.png";
 
 export const BannerList = () => {
   const { enqueueSnackbar } = useSnackbar();

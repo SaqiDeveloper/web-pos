@@ -27,12 +27,13 @@ export const UpdateProfile = () => {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const { state } = useLocation();
-  console.log(state, "fjdkgkfdjjgfk");
   const { id } = useParams();
   const [error, setError] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [loading, setLoading] = useState(false);
   const [inputs, setInputs] = useState({
+    username: "",
+    email: "",
     country: "",
     city: "",
     image: "",
@@ -144,6 +145,32 @@ export const UpdateProfile = () => {
             </Grid>
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <TextField
+                label="Username "
+                name="username"
+                value={inputs?.username}
+                onChange={handleChange}
+                fullWidth
+                size="small"
+              />
+              <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
+                {error?.username && error?.username[0]}
+              </FormHelperText>
+            </Grid>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <TextField
+                label="Email "
+                name="email"
+                value={inputs?.email}
+                onChange={handleChange}
+                fullWidth
+                size="small"
+              />
+              <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
+                {error?.email && error?.email[0]}
+              </FormHelperText>
+            </Grid>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <TextField
                 label="Country "
                 name="country"
                 value={inputs?.country}
@@ -210,13 +237,13 @@ export const UpdateProfile = () => {
             </Grid>
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <FormControl fullWidth size="small">
-                <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+                <InputLabel id="demo-simple-select-label">Gender *</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={inputs?.gender}
                   name="gender"
-                  label="Gender"
+                  label="Gender *"
                   onChange={handleChange}
                 >
                   <MenuItem value={"Male"}>Male</MenuItem>
@@ -224,6 +251,9 @@ export const UpdateProfile = () => {
                   <MenuItem value={"Other"}>Other</MenuItem>
                 </Select>
               </FormControl>
+              <FormHelperText sx={{ color: "red", fontSize: "13px" }}>
+                {error?.gender && error?.gender[0]}
+              </FormHelperText>
             </Grid>
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -249,18 +279,18 @@ export const UpdateProfile = () => {
             <Grid item lg={12} md={12} sm={12} xs={12}>
               <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
                 <div className="row w-100 div-style ms-0 pt-0">
-                  <div className="col-4">
+                  <div className="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                     <p className="">Upload Image * </p>
                     <FormHelperText className="pt-0">
                       Supported Format ("JPG", "JPEG", "PNG", "WEBP")
                     </FormHelperText>
                   </div>
-                  <div className="col-3">
-                    {imagePreview && (
-                      <img src={imagePreview} height="60" width={"150"} />
-                    )}
-                  </div>
-                  <div className="col-5 text-end pt-2 ">
+                  {imagePreview && (
+                    <div className="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                      <img src={imagePreview} height="60" width={"100%"} />
+                    </div>
+                  )}
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-end pt-2 ">
                     <label htmlFor="brand-logo-input">
                       <Input
                         accept="image/*"
