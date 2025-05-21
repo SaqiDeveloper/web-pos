@@ -177,7 +177,7 @@ export default function CommissionLevel() {
             </Scrollbar>
 
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={[10, 50, 100]}
               component="div"
               count={total}
               rowsPerPage={rowsPerPage}

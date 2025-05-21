@@ -70,3 +70,15 @@ export const RemoveUserBalance = async (data) => {
   };
   return invokeApi(requestObj);
 };
+export const ChangeCommissionStatus = async (id, data) => {
+  const requestObj = {
+    path: `admin/user/special/${id}`,
+    method: "POST",
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    postData: data,
+  };
+  return invokeApi(requestObj);
+};

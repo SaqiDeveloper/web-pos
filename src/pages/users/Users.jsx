@@ -32,7 +32,11 @@ import {
 } from "src/components";
 //
 import { useNavigate } from "react-router-dom";
-import { AllUsers, UpdateUserStatus } from "src/DAL/Users/User";
+import {
+  AllUsers,
+  ChangeCommissionStatus,
+  UpdateUserStatus,
+} from "src/DAL/Users/User";
 import moment from "moment/moment";
 import { ClassNames } from "@emotion/react";
 import UserListToolbar from "src/components/UserListToolbar";
@@ -67,6 +71,7 @@ const TABLE_HEAD = [
   { id: "bonus", label: "Bonus", alignRight: false },
   { id: "referral_id", label: "Referral ID", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
+  { id: "special", label: "Commission Status", alignRight: false },
   { id: "reason", label: "Reason", alignRight: false },
   { id: "date_of_birth", label: "Date of Birth", alignRight: false },
   { id: "country", label: "Country", alignRight: false },
@@ -93,7 +98,6 @@ export default function Users() {
   const [openBalanceModel, setOpenBalanceModel] = useState(false);
   const [userId, setUserId] = useState("");
   const [reason, setReason] = useState("");
-  console.log(reason, "kdfjgklfjdklgjkfl");
   const [reasonModel, setReasonModel] = useState(false);
   const [type, setType] = useState("Add");
 
@@ -140,6 +144,20 @@ export default function Users() {
     }
     setReasonModel(false);
     UpdateStatus(0);
+  };
+
+  const handleCommissionStatusChange = async (e, id) => {
+    const data = {
+      special: e.target.value == true ? 1 : 0,
+      _method: "put",
+    };
+    const resp = await ChangeCommissionStatus(id, data);
+    if (resp?.status == true) {
+      enqueueSnackbar(resp?.message, { variant: "success" });
+      getAllUsers();
+    } else {
+      enqueueSnackbar(resp?.message, { variant: "error" });
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -287,6 +305,7 @@ export default function Users() {
                         balance,
                         bonus,
                         country,
+                        special,
                         date_of_birth,
                         is_mining,
                         referred_by,
@@ -352,6 +371,25 @@ export default function Users() {
                               </Select>
                             </FormControl>
                           </TableCell>
+                          <TableCell align="left">
+                            <FormControl size="small">
+                              <InputLabel id="demo-simple-select-label">
+                                Status
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={special}
+                                label="Status"
+                                onChange={(e) =>
+                                  handleCommissionStatusChange(e, id)
+                                }
+                              >
+                                <MenuItem value={true}>True</MenuItem>
+                                <MenuItem value={false}>False</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </TableCell>
                           <TableCell align="left">{reason}</TableCell>
                           <TableCell align="left">{date_of_birth}</TableCell>
                           <TableCell align="left">
@@ -395,7 +433,7 @@ export default function Users() {
             </Scrollbar>
 
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={[10, 50, 100]}
               component="div"
               count={total}
               rowsPerPage={rowsPerPage}
