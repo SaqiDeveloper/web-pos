@@ -2,7 +2,7 @@ import { invokeApi } from "src/utils";
 
 export const login = async (data) => {
   const requestObj = {
-    path: `admin/login`,
+    path: `login`,
     method: "POST",
     headers: {},
     postData: data,
