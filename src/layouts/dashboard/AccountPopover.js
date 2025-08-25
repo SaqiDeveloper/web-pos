@@ -23,9 +23,10 @@ export default function AccountPopover() {
 
   // const match = (path) =>
   //   path ? !!matchPath({ path, end: false }, pathname) : false;
-  // const handleOpen = (event) => {
-  //   setOpen(event.currentTarget);
-  // };
+
+  const handleOpen = (event) => {
+    setOpen(event.currentTarget);
+  };
 
   const handleClose = () => {
     setOpen(null);
