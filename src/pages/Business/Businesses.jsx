@@ -40,14 +40,14 @@ const TABLE_HEAD = [
         alignRight: false,
         ClassName: "text-center",
     },
-    { id: "email", label: "Email", alignRight: false },
-    { id: "status", label: "Status", alignRight: false },
-    { id: "users", label: "No. of Users", alignRight: false },
-    { id: "created_at", label: "Created At" },
+    {id: "email", label: "Email", alignRight: false},
+    {id: "status", label: "Status", alignRight: false},
+    {id: "users", label: "No. of Users", alignRight: false},
+    {id: "created_at", label: "Created At"},
 ];
 
 export const Businesses = () => {
-    const { enqueueSnackbar } = useSnackbar();
+    const {enqueueSnackbar} = useSnackbar();
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -59,32 +59,33 @@ export const Businesses = () => {
     const [business, setBusiness] = useState("");
 
     const getAllBusinesses = async () => {
-        const resp = await AllBusinesses(page, rowsPerPage, filterName);
-        if (resp.statusCode=== 200) {
+        try {
+            const resp = await AllBusinesses(page, rowsPerPage, filterName);
             setBusinessList(resp?.data);
             setTotal(resp?.pagination?.totalPages);
             setCurrentPage(resp?.pagination?.page);
             setLoading(false);
-        } else {
+        } catch (err) {
             setLoading(false);
-            enqueueSnackbar(resp?.message, { variant: "error" });
+            enqueueSnackbar(err?.message, {variant: "error"});
         }
     };
 
     const updateBusiness = async (val) => {
-        const resp = await UpdateBusiness({...business, status:val === 0 ? 'inActive' : 'active'});
-        if (resp?.statusCode === 200) {
-            enqueueSnackbar(resp?.message, { variant: "success" });
+        try {
+            const resp = await UpdateBusiness({...business, status: val === 0 ? 'inActive' : 'active'});
+
+            enqueueSnackbar(resp?.message, {variant: "success"});
             getAllBusinesses();
-        } else {
-            enqueueSnackbar(resp?.message, { variant: "error" });
+        } catch (err) {
+            enqueueSnackbar(err?.message, {variant: "error"});
         }
     };
 
     const handleStatusChange = async (e, business) => {
-            updateBusiness(e.target.value, business);
+        updateBusiness(e.target.value, business);
     };
-    
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage + 1);
     };
@@ -143,13 +144,13 @@ export const Businesses = () => {
                     <>
                         <Box>
                             <CircularProgress
-                                sx={{ display: "flex", marginTop: "20%", marginLeft: "50%" }}
+                                sx={{display: "flex", marginTop: "20%", marginLeft: "50%"}}
                             />
                         </Box>
                     </>
                 ) : (
                     <Card
-                        sx={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", mb: 1 }}
+                        sx={{boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", mb: 1}}
                     >
                         <UserListToolbar
                             filterName={filterName}
@@ -158,9 +159,9 @@ export const Businesses = () => {
                         />
 
                         <Scrollbar>
-                            <TableContainer sx={{ minWidth: 800 }}>
+                            <TableContainer sx={{minWidth: 800}}>
                                 <Table>
-                                    <UserListHead headLabel={TABLE_HEAD} />
+                                    <UserListHead headLabel={TABLE_HEAD}/>
                                     <TableBody>
                                         {businessList?.map((row, index) => {
                                             const {
@@ -173,7 +174,7 @@ export const Businesses = () => {
                                             } = row;
 
                                             return (
-                                                <TableRow hover key={id} sx={{ whiteSpace: "nowrap" }}>
+                                                <TableRow hover key={id} sx={{whiteSpace: "nowrap"}}>
                                                     <TableCell padding="checkbox"></TableCell>
 
                                                     <TableCell align="left">{index + 1}</TableCell>
@@ -215,7 +216,7 @@ export const Businesses = () => {
                                                     </TableCell>
 
                                                     <TableCell align="left">
-                                                        <UserMoreMenu options={MENU_OPTIONS} data={row} />
+                                                        <UserMoreMenu options={MENU_OPTIONS} data={row}/>
                                                     </TableCell>
                                                 </TableRow>
                                             );
@@ -228,9 +229,9 @@ export const Businesses = () => {
                                                 <TableCell
                                                     align="center"
                                                     colSpan={TABLE_HEAD?.length}
-                                                    sx={{ py: 3 }}
+                                                    sx={{py: 3}}
                                                 >
-                                                    <SearchNotFound searchQuery={filterName} />
+                                                    <SearchNotFound searchQuery={filterName}/>
                                                 </TableCell>
                                             </TableRow>
                                         </TableBody>

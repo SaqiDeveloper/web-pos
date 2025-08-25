@@ -20,13 +20,14 @@ export default function Dashboard() {
     const FetchDashboardStats = async () => {
         const resp = await GetDashboardData();
 
-        if (resp?.statusCode === 200) {
+        try{
             setData(resp?.data);
             setLoading(false);
-        } else {
-            enqueueSnackbar(resp?.message, {variant: "error"});
+        }catch(err){
+            enqueueSnackbar(err?.message, {variant: "error"});
             setLoading(false);
         }
+
     };
 
     useEffect(() => {
