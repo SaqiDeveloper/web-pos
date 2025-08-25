@@ -105,4 +105,22 @@ const navConfig = [
   // },
 ];
 
+export const superAdminNavConfig = [
+  {
+    title: "dashboard",
+    path: "/dashboard",
+    icon: getIcon("eva:pie-chart-2-fill"),
+  },
+  {
+    title: "Businesses",
+    path: "/business-list",
+    icon: getIcon("material-symbols:payments"),
+  },
+  {
+    title: "Users",
+    path: "/users",
+    icon: getIcon("fa6-solid:users"),
+  }
+];
+
 export default navConfig;

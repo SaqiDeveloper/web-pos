@@ -1,59 +1,46 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  Link as RouterLink,
-  matchPath,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import {useEffect, useRef, useState} from "react";
+import {useNavigate,} from "react-router-dom";
 // @mui
-import { alpha } from "@mui/material/styles";
-import {
-  Box,
-  Divider,
-  Typography,
-  Stack,
-  MenuItem,
-  Avatar,
-  IconButton,
-} from "@mui/material";
+import {alpha} from "@mui/material/styles";
+import {Avatar, Box, Divider, IconButton, MenuItem, Typography,} from "@mui/material";
 // components
 import MenuPopover from "../../components/MenuPopover";
 //hooks
-import { useAppContext } from "src/hooks";
-import { logout } from "src/DAL/auth";
-import { useSnackbar } from "notistack";
-import { Iconify } from "src/components";
+import {useAppContext} from "src/hooks";
+import {Iconify} from "src/components";
 
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
   const anchorRef = useRef(null);
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
+  // const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(null);
   const { _get_user_profile } = useAppContext();
   const profile = _get_user_profile();
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
   const [user, setUser] = useState();
 
-  const match = (path) =>
-    path ? !!matchPath({ path, end: false }, pathname) : false;
-  const handleOpen = (event) => {
-    setOpen(event.currentTarget);
-  };
+  // const match = (path) =>
+  //   path ? !!matchPath({ path, end: false }, pathname) : false;
+  // const handleOpen = (event) => {
+  //   setOpen(event.currentTarget);
+  // };
 
   const handleClose = () => {
     setOpen(null);
   };
-  const handleLogout = async () => {
-    const resp = await logout();
-    if (resp?.status == true) {
-      localStorage.clear();
-      navigate("/login", { replace: true });
-      enqueueSnackbar(resp?.message, { variant: "success" });
-    } else {
-      enqueueSnackbar(resp?.message, { variant: "error" });
-    }
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
+    // const resp = await logout();
+    // if (resp?.status == true) {
+    //
+    //   navigate("/login", { replace: true });
+    //   enqueueSnackbar(resp?.message, { variant: "success" });
+    // } else {
+    //   enqueueSnackbar(resp?.message, { variant: "error" });
+    // }
   };
 
   useEffect(() => {

@@ -1,39 +1,29 @@
-import { Navigate, Route, Routes, useRoutes } from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 // layouts
 import DashboardLayout from "./layouts/dashboard/DashboardLayout";
 import LogoOnlyLayout from "./layouts/LogoOnlyLayout";
 //pages
-import {
-  AddUser,
-  Dashboard,
-  ForgotPassword,
-  Login,
-  Page404,
-  Profile,
-  Register,
-  Settings,
-  Users,
-} from "./pages";
-import { UserDetail } from "./pages/users/UserDetail";
+import {Dashboard, Login, Page404, Settings, Users,} from "./pages";
+import {UserDetail} from "./pages/users/UserDetail";
 import Deposits from "./pages/DepositSection/DepositList";
 import PendingWithdraw from "./pages/WithdrawList/PendingList";
 import ApproveWithdraw from "./pages/WithdrawList/ApproveList";
 import RejectedWithdraw from "./pages/WithdrawList/RejectList";
-import { BannerList } from "./pages/BannerSection/BannerList";
-import { AddBanner } from "./pages/BannerSection/AddBanner";
+import {BannerList} from "./pages/BannerSection/BannerList";
+import {AddBanner} from "./pages/BannerSection/AddBanner";
 import RankListing from "./pages/Ranks/RankListing";
-import { AddRank } from "./pages/Ranks/AddRank";
+import {AddRank} from "./pages/Ranks/AddRank";
 import PromotionListing from "./pages/Promotions/PromotionListing";
-import { AddPromotion } from "./pages/Promotions/AddPromotion";
+import {AddPromotion} from "./pages/Promotions/AddPromotion";
 import RejectedDeposits from "./pages/DepositSection/RejectDeposits";
 import ApprovedDeposits from "./pages/DepositSection/ApproveDeposit";
-import MethodListing from "./pages/MethodSection/MethodsListing";
 import MethodListingSection from "./pages/MethodSection/MethodsListing";
-import { EditBanner } from "./pages/BannerSection/EditBanner";
-import { AddMethod } from "./pages/MethodSection/AddMethod";
-import { EditMethod } from "./pages/MethodSection/EditMethod";
-import { UpdateProfile } from "./pages/users/UpdateProfile";
+import {EditBanner} from "./pages/BannerSection/EditBanner";
+import {AddMethod} from "./pages/MethodSection/AddMethod";
+import {EditMethod} from "./pages/MethodSection/EditMethod";
+import {UpdateProfile} from "./pages/users/UpdateProfile";
 import CommissionLevel from "./pages/LevelCommission/Commission";
+import {Businesses} from "./pages/Business/Businesses";
 
 // ----------------------------------------------------------------------
 
@@ -75,6 +65,7 @@ export default function Router() {
           <Route path="/all-methods/add-method" element={<AddMethod />} />
           <Route path="/all-methods/edit-method/:id" element={<EditMethod />} />
           <Route path="/commission-level" element={<CommissionLevel />} />
+          <Route path="/business-list" element={<Businesses />} />
         </Route>
         <Route element={<LogoOnlyLayout />}>
           <Route path="/" element={<Authentication />} />

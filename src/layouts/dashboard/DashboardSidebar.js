@@ -1,29 +1,19 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useLocation} from "react-router-dom";
 // material
-import { styled } from "@mui/material/styles";
-import {
-  Box,
-  Link,
-  Button,
-  Drawer,
-  Typography,
-  Avatar,
-  Stack,
-} from "@mui/material";
+import {styled} from "@mui/material/styles";
+import {Avatar, Box, Drawer, Link, Typography,} from "@mui/material";
 
 // hooks
 import useResponsive from "../../hooks/useResponsive";
-import { useAppContext } from "src/hooks";
+import {useAppContext} from "src/hooks";
 // components
 import Logo from "../../components/Logo";
 import Scrollbar from "../../components/Scrollbar";
 import NavSection from "../../components/NavSection";
 //
-import navConfig from "./NavConfig";
-import { logout } from "src/DAL/auth";
-import { useSnackbar } from "notistack";
+import navConfig, {superAdminNavConfig} from "./NavConfig";
 
 // ----------------------------------------------------------------------
 
@@ -43,15 +33,15 @@ const AccountStyle = styled("div")(({ theme }) => ({
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
   backgroundColor: "#ffeac9",
 }));
-const LogoutContainer = styled("div")(({ theme }) => ({
-  paddingInline: theme.spacing(2.5),
-  paddingBlock: theme.spacing(1),
-  marginTop: 25,
-  backgroundColor: "#ffff",
-  position: "absolute",
-  width: "100%",
-  bottom: "0",
-}));
+// const LogoutContainer = styled("div")(({ theme }) => ({
+//   paddingInline: theme.spacing(2.5),
+//   paddingBlock: theme.spacing(1),
+//   marginTop: 25,
+//   backgroundColor: "#ffff",
+//   position: "absolute",
+//   width: "100%",
+//   bottom: "0",
+// }));
 
 // ----------------------------------------------------------------------
 
@@ -62,23 +52,14 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
-  const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
+  // const navigate = useNavigate();
+  // const { enqueueSnackbar } = useSnackbar();
   const { _get_user_profile } = useAppContext();
   const isDesktop = useResponsive("up", "lg");
   const profile = _get_user_profile();
   const [user, setUser] = useState();
 
-  const handleLogout = async () => {
-    const resp = await logout();
-    if (resp?.status == true) {
-      localStorage.clear();
-      navigate("/login", { replace: true });
-      enqueueSnackbar(resp?.message, { variant: "success" });
-    } else {
-      enqueueSnackbar(resp?.message, { variant: "error" });
-    }
-  };
+
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user_data"));
     setUser(userData);
@@ -138,7 +119,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Link>
       </Box>
 
-      <NavSection navConfig={navConfig} />
+      <NavSection navConfig={user?.isSuperAdmin ? superAdminNavConfig :navConfig } />
     </Scrollbar>
   );
 
@@ -156,7 +137,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Drawer>
       )}
 
-      {isDesktop && (
+      {isDesktop && user?.isSuperAdmin && (
         <Drawer
           open
           variant="persistent"

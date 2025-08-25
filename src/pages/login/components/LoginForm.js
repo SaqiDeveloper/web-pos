@@ -12,7 +12,7 @@ import {login} from "src/DAL/auth";
 
 export default function LoginForm() {
     const navigate = useNavigate();
-    const [formInputs, setFormInputs] = useState({email: "", password: ""});
+    const [formInputs, setFormInputs] = useState({email: "saqlainhaider434@gmail.com", password: "12345"});
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -34,7 +34,7 @@ export default function LoginForm() {
 
         const result = await login(formData);
         if (result.statusCode === 200) {
-            localStorage.setItem("token", result?.data?.token);
+            localStorage.setItem("token", result?.accessToken);
             localStorage.setItem(`user_data`, JSON.stringify(result.data));
 
             enqueueSnackbar(result.message, {variant: "success"});
@@ -111,7 +111,7 @@ export default function LoginForm() {
                 loading={isLoading}
                 sx={{textTransform: "none", fontSize: "15px"}}
             >
-                {isLoading == true ? "Login.." : "Login"}
+                {isLoading ? "Login.." : "Login"}
             </LoadingButton>
         </form>
     );
